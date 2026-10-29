@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f3ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="吃什么">
+<meta name="robots" content="noindex">
+<title>今天吃什么</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+<style>
+  :root { --bg: #f4f3ef; --surface: #fff; --surface-2: #ebe9e3; --text: #1d1d1b; --muted: #6b6a66; --faint: #9a9893; --line: #dcdad3;
+    --paper: #fffdf8; --food: #f2564f; --food-soft: rgba(242, 86, 79, .13); --ok: #2f8f4e; --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    color-scheme: light dark; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111110; --surface: #1c1c1b; --surface-2: #262624; --text: #f1f0ec; --muted: #a9a7a1; --faint: #77756f; --line: #34332f;
+      --paper: #2b2b29; --food: #ff6b63; --food-soft: rgba(255, 107, 99, .16); --ok: #5cc27e; }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); overflow-x: hidden; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--food); outline-offset: 2px; }
+  main { max-width: 560px; margin: 0 auto; padding: 12px 16px 96px; }
+  header { display: flex; align-items: center; gap: 10px; padding: 6px 0 12px; }
+  header .mark { font-size: 26px; }
+  header h1 { font-size: 19px; margin: 0; font-weight: 800; letter-spacing: -.01em; }
+  header .sub { font-size: 12px; color: var(--muted); }
+  header .grow { flex: 1; min-width: 0; }
+  .quiet { min-height: 40px; padding: 0 12px; border-radius: 12px; color: var(--muted); font-size: 14px; }
+  .tabs { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; gap: 8px; z-index: 20;
+    padding: 8px 16px calc(8px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--line); }
+  .tabs button { flex: 1; max-width: 200px; min-height: 44px; border-radius: 14px; font-weight: 650; color: var(--muted); }
+  .tabs button[aria-selected="true"] { background: var(--food-soft); color: var(--food); }
+  .hint { font-size: 12.5px; color: var(--faint); margin: 10px 2px; }
+  .empty { text-align: center; color: var(--muted); padding: 40px 12px; }
+  .box { background: var(--surface); border-radius: 18px; padding: 16px; }
+  .error { color: #c0392b; }
+  .btn { min-height: 44px; padding: 10px 16px; border-radius: 12px; font-weight: 650; }
+  .btn.main { background: var(--food); color: #fff; }
+  .btn.plain { background: var(--surface); border: 1px solid var(--line); }
+  #notice { position: fixed; left: 16px; right: 16px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: 528px; margin: 0 auto; z-index: 30;
+    background: var(--text); color: var(--bg); border-radius: 14px; padding: 12px 14px; font-size: 14px; box-shadow: 0 8px 30px rgba(0,0,0,.25); }
+  #notice.bad { background: #c0392b; color: #fff; }
+  #notice[hidden] { display: none; }
+
+  /* Login */
+  .login { max-width: 360px; margin: 18vh auto 0; display: grid; gap: 12px; text-align: center; }
+  .login input { font: inherit; font-size: 16px; min-height: 48px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--text); padding: 0 14px; width: 100%; }
+
+  /* The roll */
+  .frow { margin: 0 0 12px; }
+  .frow > small { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin: 0 2px 6px; }
+  .fchips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fchip { min-height: 36px; padding: 7px 12px; border-radius: 999px; background: var(--surface-2); font-size: 13.5px; transition: background .15s, color .15s, transform .15s; }
+  .fchip.on { background: var(--food); color: #fff; font-weight: 600; }
+  .fchip:active { transform: scale(.94); }
+  .stage { position: relative; min-height: 250px; border-radius: 24px; overflow: hidden; display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--food-soft), rgba(251, 146, 60, .12)); margin: 6px 0 12px; }
+  .stage .idle { text-align: center; color: var(--muted); font-size: 14px; }
+  .stage .bowl { font-size: 64px; display: inline-block; animation: bob 1.8s ease-in-out infinite; }
+  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
+  .scard { position: absolute; left: 50%; top: 50%; width: 104px; height: 134px; margin: -67px 0 0 -52px; border-radius: 16px;
+    background: var(--paper); box-shadow: 0 4px 14px rgba(0, 0, 0, .16); display: grid; place-items: center; font-size: 42px;
+    transition: transform .22s cubic-bezier(.3, 1.6, .5, 1); }
+  .pick-card { text-align: center; padding: 16px 12px; width: 100%; }
+  .pick-card.fresh { animation: pop .55s cubic-bezier(.3, 1.6, .5, 1) both; }
+  @keyframes pop { from { transform: scale(.55); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .pick-card .em { font-size: 46px; display: inline-block; }
+  .pick-card.fresh .em { animation: wiggle .6s ease-out both .1s; }
+  @keyframes wiggle { 0% { transform: scale(1.3) rotate(-12deg); } 60% { transform: scale(.95) rotate(6deg); } 100% { transform: none; } }
+  .pick-card .nm { font-size: 23px; font-weight: 800; letter-spacing: -.01em; margin: 4px 0 6px; overflow-wrap: anywhere; }
+  .pick-card .tg { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .pick-card .tg span { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--text) 7%, transparent); }
+  .pick-card .st { font-size: 13px; color: var(--muted); margin-top: 8px; }
+  .pick-card .dishes { font-size: 13.5px; margin: 8px 6px 0; overflow-wrap: anywhere; }
+  .pick-card .dishes.none { font-size: 12px; color: var(--faint); }
+  .labels { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 10px; }
+  .lchip { min-height: 32px; padding: 5px 11px; border-radius: 999px; font-size: 12.5px; background: color-mix(in srgb, var(--text) 6%, transparent); color: var(--muted); }
+  .lchip.on { color: #fff; font-weight: 650; }
+  .lchip.on[data-l="全家爱吃"] { background: #e8544c; } .lchip.on[data-l="老公认可"] { background: #e8738b; } .lchip.on[data-l="老婆认证"] { background: #d65c9e; }
+  .lchip.on[data-l="不太行"] { background: #77756f; } .lchip.on[data-l="太贵了"] { background: #8c6b4d; } .lchip.on[data-l="拉肚子"] { background: #7a5c3d; }
+  .pick-card .more { color: var(--food); margin-top: 6px; font-size: 13.5px; min-height: 40px; padding: 0 6px; }
+  .spark { position: absolute; left: 50%; top: 50%; font-size: 16px; pointer-events: none; animation: burst .9s ease-out both; }
+  @keyframes burst { from { transform: translate(-50%, -50%) scale(.4); opacity: 1; } to { transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.3); opacity: 0; } }
+  .verdict { display: inline-block; margin-top: 10px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #fff; background: #dc3340; }
+  .verdict.black { background: #3a3a3c; }
+  .verdict.mixed { background: #b8731a; }
+  .vcomment, .mynote, .wishnote { font-size: 12.5px; color: var(--muted); margin: 5px 8px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .mynote { color: var(--text); }
+  .pick-card .acts { display: flex; gap: 16px; justify-content: center; margin-top: 4px; }
+  .fedit { background: var(--surface-2); border-radius: 16px; padding: 14px; margin: 0 0 12px; display: grid; gap: 10px; }
+  .fedit h3 { margin: 0; font-size: 15px; }
+  .fedit label { display: grid; grid-template-columns: 52px 1fr; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
+  .fedit input[type=text], .fedit select, .fedit textarea { font: inherit; font-size: 16px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; min-height: 40px; width: 100%; min-width: 0; }
+  .fedit textarea { min-height: 72px; resize: vertical; }
+  .fedit label.check { display: flex; gap: 8px; color: var(--text); }
+  .fedit label.check input { width: 22px; height: 22px; }
+  .fedit .count { font-size: 11px; color: var(--faint); text-align: right; margin-top: -6px; }
+  .fedit .row { display: flex; justify-content: flex-end; gap: 8px; }
+  .roll { width: 100%; background: var(--food); color: #fff; font-weight: 750; font-size: 17px; padding: 15px; border-radius: 18px; box-shadow: 0 6px 18px var(--food-soft); }
+  .roll:active { transform: scale(.98); }
+  .roll:disabled { opacity: .45; }
+  .pool-note { text-align: center; font-size: 12px; color: var(--faint); margin: 8px 0 14px; }
+  .section-title { font-weight: 700; font-size: 14px; margin: 16px 2px 8px; }
+  .visit { display: flex; gap: 8px; align-items: center; width: 100%; text-align: left; min-height: 44px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); margin: 0 0 6px; font-size: 14px; }
+  .visit .vd { font-family: var(--mono); font-size: 13px; }
+  .visit .ve { flex: 1; min-width: 0; color: var(--muted); font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .visit .va { font-weight: 650; font-variant-numeric: tabular-nums; }
+  .visit:disabled { cursor: default; }
+  .slip { background: var(--paper); border-radius: 6px; padding: 12px 14px; margin: 2px 6px 10px; box-shadow: 0 1px 4px rgba(0,0,0,.1); font-family: var(--mono); font-size: 12.5px; }
+  .slip .sh { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; font-family: -apple-system, sans-serif; font-size: 14px; }
+  .slip .si { display: flex; justify-content: space-between; gap: 10px; padding: 2px 0; }
+  .slip .si span:first-child { overflow-wrap: anywhere; }
+  .slip hr { border: 0; border-top: 1px dashed var(--line); margin: 8px 0; }
+  .slip .orig { color: var(--food); font-family: -apple-system, sans-serif; min-height: 40px; }
+  .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.88); z-index: 50; display: grid; place-items: center; padding: 16px; }
+  .lightbox img { max-width: 100%; max-height: 100%; border-radius: 6px; }
+
+  /* 想吃 */
+  .wish { display: flex; gap: 12px; align-items: flex-start; background: var(--surface); border-radius: 16px; padding: 12px 14px; margin: 0 0 8px; }
+  .wish .we { font-size: 28px; line-height: 1.2; }
+  .wish .wb { flex: 1; min-width: 0; }
+  .wish .wt { font-weight: 750; font-size: 15.5px; overflow-wrap: anywhere; }
+  .wish .wf { font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
+  .wish .ws { font-size: 12.5px; color: var(--faint); margin-top: 3px; }
+  .wish .ws.ok { color: var(--ok); }
+  .wish .wishnote { margin: 2px 0 0; }
+  .wish.done { opacity: .6; }
+  .wish .wa { min-width: 40px; min-height: 40px; border-radius: 10px; color: var(--muted); font-size: 18px; }
+  .stars { color: #e8962e; font-size: 12px; margin-left: 4px; }
+  .wtools { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; }
+  .wtools label { margin-left: auto; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; min-height: 40px; }
+  .wpick { text-align: center; padding: 18px; border-radius: 20px; background: linear-gradient(135deg, var(--food-soft), rgba(251, 146, 60, .12)); margin: 0 0 12px; }
+  .wpick .nm { font-size: 21px; font-weight: 800; overflow-wrap: anywhere; }
+  .rate button { font-size: 22px; min-width: 36px; min-height: 40px; color: #e8962e; }
+
+  @media (prefers-reduced-motion: reduce) { .stage .bowl, .pick-card, .pick-card .em, .spark { animation: none !important; } .scard { transition: none; } }
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+<nav class="tabs" id="tabs" role="tablist" hidden>
+  <button type="button" role="tab" data-tab="roll" aria-selected="true">🎲 抽签</button>
+  <button type="button" role="tab" data-tab="wish" aria-selected="false">📌 想吃</button>
+</nav>
+<div id="notice" role="status" hidden></div>
+<script>
+"use strict";
+// The Edge Function of this project's Supabase (…supabase.co/functions/v1/api). Can be changed on the login screen.
+const DEFAULT_API = "";
+const CUISINES = ["中餐","火锅","韩餐","日料","东南亚","美式","快餐","墨西哥","西餐","甜品饮品","其他"];
+const TEMPS = ["热","冷","都有"];
+const LABELS = ["全家爱吃","老公认可","老婆认证","不太行","太贵了","拉肚子"];
+const PRICES = [["low","$50 以内"],["mid","$50–100"],["high","$100 以上"]];
+const FOOD_EMOJI = { 中餐:"🥟",火锅:"🍲",韩餐:"🥘",日料:"🍣",东南亚:"🍜",美式:"🍔",快餐:"🍟",墨西哥:"🌮",西餐:"🍝",甜品饮品:"🧋",其他:"🍽️" };
+const LIST_TITLE = "LV 饮食";
+
+const $ = (id) => document.getElementById(id);
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} },
+};
+// Builds an element; strings become text nodes (never HTML), null/false children are skipped.
+function el(tag, attrs = {}, ...children) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k.startsWith("on") && typeof v === "function") n.addEventListener(k.slice(2), v);
+    else if (k === "class") n.className = v;
+    else if (k === "value") n.value = v;
+    else if (v === true) n.setAttribute(k, "");
+    else n.setAttribute(k, String(v));
+  }
+  for (const c of children.flat(Infinity)) if (c != null && c !== false) n.append(c instanceof Node ? c : String(c));
+  return n;
+}
+const usd = (a) => "$" + Number(a).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const ymd = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+function relTime(iso) {
+  const m = Math.round((Date.now() - Date.parse(iso)) / 60000);
+  return m < 1 ? "刚刚" : m < 60 ? `${m} 分钟前` : m < 1440 ? `${Math.round(m / 60)} 小时前` : `${Math.round(m / 1440)} 天前`;
+}
+let noticeTimer = null;
+function notice(text, bad = false) {
+  const n = $("notice"); n.textContent = text; n.className = bad ? "bad" : ""; n.hidden = false;
+  clearTimeout(noticeTimer); noticeTimer = setTimeout(() => { n.hidden = true; }, 4200);
+}
+
+// ---- The cloud ----
+const api = () => (store.get("api") || DEFAULT_API).trim();
+class Unauthorized extends Error {}
+async function call(body) {
+  let res;
+  try {
+    res = await fetch(api(), { method: "POST", headers: { "content-type": "application/json", "x-passcode": store.get("passcode") || "" }, body: JSON.stringify(body) });
+  } catch { throw new Error("连不上云端，请检查网络"); }
+  let json = {};
+  try { json = await res.json(); } catch {}
+  if (res.status === 401) throw new Unauthorized(json.error || "口令不对");
+  if (!res.ok) throw new Error(json.error || "服务器出错了");
+  return json;
+}
+
+// ---- State ----
+let base = null, pending = [], at = null, loadError = null, loading = null;
+let cat = null;
+let tab = store.get("tab") === "wish" ? "wish" : "roll";
+let pick = null, rolling = false, showVisits = false, openVisit = null, fresh = false, editing = false, saving = false;
+let wishEditing = null, wishPick = null, showDoneWishes = false;
+const saved = (() => { try { return JSON.parse(store.get("food") || "{}"); } catch { return {}; } })();
+// area: undefined = where you ate last, null = anywhere.
+const F = { area: saved.area, cuisines: new Set(saved.cuisines || []), temp: saved.temp ?? null, prices: new Set(saved.prices || []) };
+const saveFilters = () => store.set("food", JSON.stringify({ area: F.area, cuisines: [...F.cuisines], temp: F.temp, prices: [...F.prices] }));
+
+// What a visit usually costs: the median of the visits with an amount. Mirrors FoodCatalog.Place.typical.
+function typical(p) {
+  const paid = p.visits.map(v => v.amount).filter(a => a > 0).sort((a, b) => a - b);
+  if (!paid.length) return null;
+  const mid = paid.length >> 1;
+  return paid.length % 2 ? paid[mid] : (paid[mid - 1] + paid[mid]) / 2;
+}
+const bracket = (a) => a < 50 ? "low" : a <= 100 ? "mid" : "high";
+
+// Changes the Mac has not taken in yet, applied on top of its catalog as it would (see FoodRoll.catalog / WishEdit).
+function withPending(c, edits) {
+  if (!c) return c;
+  const out = { ...c, places: c.places, wishes: [...(c.wishes || [])] };
+  const placeEdits = edits.filter(e => !e.wish), wishEdits = edits.filter(e => e.wish);
+  if (placeEdits.length) {
+    const byId = new Map(), places = [], edited = [];
+    for (const original of c.places) {
+      let p = { ...original, visits: [...original.visits], sources: [...(original.sources || [])], labels: original.labels ? [...original.labels] : undefined };
+      for (const e of placeEdits) {
+        if (!e.sources?.some(x => p.sources.includes(x))) continue;
+        if (e.hidden) { p = null; break; }
+        for (const k of ["name","area","cuisine","temp"]) if (e[k]) p[k] = e[k];
+        if (typeof e.note === "string") p.note = e.note || undefined;
+        if (Array.isArray(e.labels)) p.labels = e.labels.length ? LABELS.filter(l => e.labels.includes(l)) : undefined;
+      }
+      if (p) edited.push(p);
+    }
+    // A place merged into another takes the other's verdict and note when both have one: the target goes first.
+    const moved = (p) => (p.name + "|" + p.area).toLowerCase() !== p.id;
+    for (const p of [...edited.filter(p => !moved(p)), ...edited.filter(moved)]) {
+      const id = (p.name + "|" + p.area).toLowerCase(), same = byId.get(id);
+      if (!same) { p.id = id; byId.set(id, p); places.push(p); continue; }
+      const days = new Map(same.visits.map(v => [v.date, { ...v }]));
+      for (const v of p.visits) {
+        const d = days.get(v.date);
+        if (d) { d.amount += v.amount; d.receipts = [...d.receipts, ...v.receipts]; d.sources = [...new Set([...d.sources, ...v.sources])]; d.events = [...d.events, ...v.events]; }
+        else days.set(v.date, { ...v });
+      }
+      same.visits = [...days.values()].sort((a, b) => b.date.localeCompare(a.date));
+      same.sources = [...same.sources, ...p.sources].sort();
+      same.verdict ??= p.verdict; same.comment ??= p.comment; same.listName ??= p.listName; same.note ??= p.note;
+      if (p.labels) same.labels = LABELS.filter(l => (same.labels || []).includes(l) || p.labels.includes(l));
+    }
+    out.places = places.sort((a, b) => b.visits.length - a.visits.length || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+  }
+  wishEdits.forEach((e, n) => {
+    const w = e.wish;
+    if (!w.id) { out.wishes.unshift({ id: "pending-" + n, title: w.title, note: w.note || "", cuisine: w.cuisine || "", address: w.address || "", rating: w.rating || 0, createdAt: new Date().toISOString(), done: false, pending: true }); return; }
+    const i = out.wishes.findIndex(x => x.id === w.id);
+    if (i < 0) return;
+    if (w.deleted) { out.wishes.splice(i, 1); return; }
+    const x = { ...out.wishes[i] };
+    for (const k of ["title","note","cuisine","address","rating","done"]) if (w[k] !== undefined) x[k] = w[k];
+    out.wishes[i] = x;
+  });
+  return out;
+}
+const refresh = () => { cat = withPending(base, pending); if (pick) pick = cat?.places.find(p => p.sources?.some(x => pick.sources?.includes(x))) || null; };
+
+function areas(c) {
+  const n = new Map();
+  for (const p of c.places) if (p.area) n.set(p.area, (n.get(p.area) || 0) + p.visits.length);
+  return [...n].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).map(x => x[0]);
+}
+function currentArea(c) {
+  let best = null;
+  for (const p of c.places) if (p.area && (!best || (p.visits[0]?.date || "") > (best.visits[0]?.date || ""))) best = p;
+  return best?.area ?? null;
+}
+const area = () => F.area === undefined ? currentArea(cat) : F.area;
+function pool() {
+  if (!cat) return [];
+  const a = area();
+  return cat.places.filter(p => (!a || p.area === a) && (!F.cuisines.size || F.cuisines.has(p.cuisine))
+    && (!F.temp || p.temp === F.temp || p.temp === "都有")
+    && (!F.prices.size || (typical(p) != null && F.prices.has(bracket(typical(p))))));
+}
+
+// ---- Screens ----
+function login(message) {
+  $("tabs").hidden = true;
+  const pass = el("input", { type: "password", id: "pass", placeholder: "口令", autocomplete: "current-password", "aria-label": "口令" });
+  const addr = el("input", { type: "url", id: "addr", placeholder: "云端地址（…/functions/v1/api）", value: api(), "aria-label": "云端地址", autocomplete: "off" });
+  const go = async () => {
+    if (!pass.value.trim()) return;
+    if (addr.value.trim()) store.set("api", addr.value.trim());
+    store.set("passcode", pass.value.trim());
+    try { await call({ action: "ping" }); start(); }
+    catch (err) { store.set("passcode", null); login(err.message); }
+  };
+  pass.addEventListener("keydown", e => { if (e.key === "Enter") go(); });
+  $("app").replaceChildren(el("div", { class: "login" },
+    el("div", { style: "font-size:56px" }, "🎲"), el("h1", { style: "margin:0" }, "今天吃什么"),
+    DEFAULT_API && !message?.includes("连不上") ? null : addr, pass,
+    el("button", { type: "button", class: "btn main", id: "login", onclick: go }, "进入"),
+    message ? el("p", { class: "error", id: "loginError" }, message) : null,
+    el("p", { class: "hint" }, "口令只存在这台手机上。")));
+  pass.focus();
+}
+
+function start() {
+  $("tabs").hidden = false;
+  drawTabs();
+  load(true);
+}
+
+function load(force = false) {
+  if (loading) return loading;
+  if (cat && !force) { draw(); return Promise.resolve(); }
+  $("app").replaceChildren(head(), el("div", { class: "empty", id: "loadingBox" }, "正在取吃过的店…"));
+  loading = (async () => {
+    try {
+      const r = await call({ action: "food_get" });
+      base = r.catalog || null; pending = r.pending || []; at = r.updatedAt || null; loadError = null; refresh();
+    } catch (err) {
+      if (err instanceof Unauthorized) { loading = null; store.set("passcode", null); login(err.message); return; }
+      loadError = err;
+    } finally { loading = null; }
+    draw();
+  })();
+  return loading;
+}
+
+function head() {
+  const n = cat ? cat.places.filter(p => p.visits.length).length : 0;
+  return el("header", {},
+    el("span", { class: "mark", "aria-hidden": "true" }, "🎲"),
+    el("div", { class: "grow" }, el("h1", {}, "今天吃什么"), el("div", { class: "sub" }, cat ? `${n} 家吃过的店` : "")),
+    el("button", { type: "button", class: "quiet", id: "reload", onclick: () => load(true) }, "刷新"),
+    el("button", { type: "button", class: "quiet", id: "logout", onclick: () => { store.set("passcode", null); base = cat = pick = null; pending = []; login(); } }, "退出"));
+}
+
+function drawTabs() {
+  for (const b of $("tabs").querySelectorAll("button")) b.setAttribute("aria-selected", String(b.dataset.tab === tab));
+}
+
+function draw() {
+  drawTabs();
+  const box = $("app");
+  if (loadError) {
+    box.replaceChildren(head(), el("div", { class: "box" }, el("p", { class: "error" }, loadError.message),
+      el("button", { type: "button", class: "btn plain", onclick: () => load(true) }, "再试一次")));
+    return;
+  }
+  box.replaceChildren(head(), ...(tab === "wish" ? wishScreen() : rollScreen()).filter(Boolean),
+    el("p", { class: "hint", id: "foot" }, at ? `Mac 上次整理：${relTime(at)}。` : "", "来自 MoneyWiz、小票和日历；菜系、冷热和城市由 AI 判断。"));
+}
+
+const fchip = (text, on, onclick) => el("button", { type: "button", class: "fchip" + (on ? " on" : ""), "aria-pressed": String(on), onclick }, text);
+const frow = (title, chips) => el("div", { class: "frow" }, el("small", {}, title), el("div", { class: "fchips" }, chips));
+
+function rollScreen() {
+  if (!cat || !cat.places?.length) {
+    return [el("div", { class: "empty" }, "Mac 还没有整理出吃过的店。", el("br"), "在 Mac 上打开「今天吃什么」，整理完会同步到这里。")];
+  }
+  const a = area(), p = pool();
+  const set = (fn) => () => { fn(); saveFilters(); draw(); };
+  const nodes = [
+    frow("📍 在哪儿", [...areas(cat).slice(0, 8).map(x => fchip(x, a === x, set(() => { F.area = x; }))), fchip("哪都行", !a, set(() => { F.area = null; }))]),
+    frow("🍴 想吃啥", [fchip("随便", !F.cuisines.size, set(() => F.cuisines.clear())),
+      ...CUISINES.map(c => fchip(`${FOOD_EMOJI[c]} ${c}`, F.cuisines.has(c), set(() => { F.cuisines.has(c) ? F.cuisines.delete(c) : F.cuisines.add(c); })))]),
+    frow("💰 花多少（按平时每次）", [fchip("不限", !F.prices.size, set(() => F.prices.clear())),
+      ...PRICES.map(([k, t]) => fchip(t, F.prices.has(k), set(() => { F.prices.has(k) ? F.prices.delete(k) : F.prices.add(k); })))]),
+    frow("🌡️ 冷的热的", [fchip("都行", !F.temp, set(() => { F.temp = null; })),
+      fchip("🔥 热乎的", F.temp === "热", set(() => { F.temp = "热"; })), fchip("🧊 冰冰凉", F.temp === "冷", set(() => { F.temp = "冷"; }))]),
+  ];
+  const stage = el("div", { class: "stage", id: "stage" });
+  if (pick) stage.append(pickCard(pick));
+  else stage.append(el("div", { class: "idle" }, el("div", { class: "bowl" }, "🍚"), el("div", {}, p.length ? "肚子饿了？点下面抽一家" : "这样筛就没有店啦，放宽一点试试")));
+  nodes.push(stage, pick && editing ? editForm(pick) : null,
+    el("button", { type: "button", class: "roll", id: "roll", disabled: !p.length || rolling, onclick: roll }, pick ? "🎲  再抽一次" : "🎲  抽一家！"),
+    el("p", { class: "pool-note", id: "poolNote" }, `符合条件的有 ${p.length} 家 · 一共 ${cat.places.length} 家店`));
+  if (pick && showVisits) nodes.push(visitList(pick));
+  return nodes;
+}
+
+function pickCard(p) {
+  const last = p.visits[0], total = p.visits.reduce((s, v) => s + v.amount, 0);
+  const days = last ? Math.round((Date.parse(ymd(new Date()) + "T00:00:00Z") - Date.parse(last.date + "T00:00:00Z")) / 86400000) : 0;
+  const usual = typical(p);
+  const stat = !p.visits.length ? `还没吃过 · 在备忘录「${LIST_TITLE}」里`
+    : [`吃过 ${p.visits.length} 次`, last && `上次 ${last.date}（${days > 0 ? days + " 天前" : "今天"}）`, usual != null && `一般每次 ${usd(usual)}`, total > 0 && `一共 ${usd(total)}`].filter(Boolean).join(" · ");
+  const hasItems = p.visits.some(v => v.receipts.some(r => r.items?.length));
+  const dishes = p.dishes ? el("div", { class: "dishes", id: "dishes" }, p.dishes)
+    : p.visits.length ? el("div", { class: "dishes none", id: "dishes" }, hasItems ? "吃过什么还在整理中" : "没有小票明细，补上小票就能看到吃过什么") : null;
+  const wish = (cat.wishes || []).find(w => w.place === p.id && !w.done);
+  // The pop and sparkles play once, when the pick lands, not on every redraw.
+  const isFresh = fresh; fresh = false;
+  const card = el("div", { class: "pick-card" + (isFresh ? " fresh" : ""), id: "pick" },
+    el("div", { class: "em" }, FOOD_EMOJI[p.cuisine] || "🍽️"),
+    el("div", { class: "nm", id: "pickName" }, p.name),
+    el("div", { class: "tg" }, p.area && el("span", {}, "📍 " + p.area), el("span", {}, p.cuisine), p.temp === "冷" ? el("span", {}, "🧊 冷") : p.temp === "热" ? el("span", {}, "🔥 热") : null),
+    el("div", { class: "st" }, stat),
+    dishes,
+    el("div", { class: "labels", id: "labels" }, LABELS.map(l => {
+      const on = (p.labels || []).includes(l);
+      return el("button", { type: "button", class: "lchip" + (on ? " on" : ""), "data-l": l, "aria-pressed": String(on), onclick: () => toggleLabel(p, l) }, l);
+    })),
+    p.verdict && el("div", {}, el("span", { class: "verdict " + p.verdict }, { red: "👍 红榜", black: "👎 黑榜", mixed: "👍👎 红黑榜都有" }[p.verdict])),
+    p.verdict && p.comment && el("div", { class: "vcomment" }, (p.listName ? `「${p.listName}」` : "") + p.comment),
+    wish && el("div", { class: "wishnote" }, "📌 在想吃清单里" + (wish.note ? "：" + wish.note : "")),
+    p.note && el("div", { class: "mynote", id: "myNote" }, "✍️ " + p.note),
+    el("div", { class: "acts" },
+      p.visits.length ? el("button", { type: "button", class: "more", id: "visits", "aria-expanded": String(showVisits), onclick: () => { showVisits = !showVisits; draw(); } }, showVisits ? "收起 ▴" : "看看以前哪天吃的 ▾") : null,
+      el("button", { type: "button", class: "more", id: "edit", "aria-expanded": String(editing), onclick: () => { editing = !editing; draw(); } }, "✏️ 改一改")));
+  const frag = document.createDocumentFragment(); frag.append(card);
+  if (isFresh && !reduced()) ["✨","⭐️","💫","✨","⭐️","💫","✨"].forEach((s, i) => {
+    const a = i / 7 * 2 * Math.PI;
+    frag.append(el("span", { class: "spark", "aria-hidden": "true", style: `--x:${Math.round(Math.cos(a) * 150)}px;--y:${Math.round(Math.sin(a) * 95)}px` }, s));
+  });
+  return frag;
+}
+const reduced = () => !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+async function roll() {
+  const p = pool();
+  if (!p.length || rolling) return;
+  const previous = pick;
+  rolling = true; pick = null; showVisits = false; openVisit = null; editing = false; draw();
+  const stage = $("stage"), emojis = p.slice(0, 12).map(x => FOOD_EMOJI[x.cuisine] || "🍽️");
+  if (!reduced()) {
+    const cards = [0, 1, 2].map(() => el("div", { class: "scard", "aria-hidden": "true" }));
+    stage.replaceChildren(...cards);
+    for (let step = 0; step < 9; step++) {
+      cards.forEach((c, i) => {
+        const slot = (i + step) % 3;
+        c.textContent = emojis[(i + step) % emojis.length];
+        c.style.transform = `translate(${(slot - 1) * 70}px, ${slot === 1 ? -14 : 6}px) rotate(${(slot - 1) * 12}deg)`;
+        c.style.zIndex = slot === 1 ? 2 : 0;
+      });
+      await new Promise(r => setTimeout(r, 90 + step * 18));
+    }
+  }
+  const others = p.length > 1 ? p.filter(x => x.id !== previous?.id) : p;
+  pick = others[Math.floor(Math.random() * others.length)];
+  rolling = false; fresh = true; draw();
+}
+
+// A change from the phone: shown here at once (kept as pending until the Mac has taken it in), sent to the cloud.
+async function send(patch, { optimistic = true } = {}) {
+  if (optimistic) { pending.push(patch); refresh(); draw(); }
+  try {
+    const r = await call({ action: "food_edit", patch });
+    if (!optimistic) { pending.push(r.patch || patch); refresh(); }
+    notice(r.mac?.online ? "已改好，Mac 几秒内同步到各处。" : "已改好，这台手机上已经生效；Mac 醒来后同步到各处。");
+    return true;
+  } catch (err) {
+    if (optimistic) { pending.splice(pending.lastIndexOf(patch), 1); refresh(); }
+    if (err instanceof Unauthorized) { store.set("passcode", null); login(err.message); return false; }
+    notice(err.message, true);
+    return false;
+  } finally { draw(); }
+}
+
+function toggleLabel(p, l) {
+  const now = new Set(p.labels || []);
+  now.has(l) ? now.delete(l) : now.add(l);
+  send({ sources: p.sources, labels: LABELS.filter(x => now.has(x)) });
+}
+
+// Correct the pick on the spot: the Mac keeps the correction and rebuilds for everyone.
+function editForm(p) {
+  const name = el("input", { type: "text", id: "feName", value: p.name, "aria-label": "店名", autocomplete: "off" });
+  const ar = el("input", { type: "text", id: "feArea", value: p.area, list: "feAreas", "aria-label": "城市", autocomplete: "off" });
+  const list = el("datalist", { id: "feAreas" }, areas(cat).slice(0, 12).map(a => el("option", { value: a })));
+  const cuisine = el("select", { id: "feCuisine", "aria-label": "菜系" }, CUISINES.map(c => el("option", { value: c, selected: c === p.cuisine }, `${FOOD_EMOJI[c]} ${c}`)));
+  const temp = el("select", { id: "feTemp", "aria-label": "冷热" }, TEMPS.map(t => el("option", { value: t, selected: t === p.temp }, t)));
+  const others = cat.places.filter(o => o.area === p.area && o.id !== p.id).sort((a, b) => a.name.localeCompare(b.name));
+  const merge = el("select", { id: "feMerge", "aria-label": "合并到" }, el("option", { value: "" }, "不合并（是另一家店）"), others.map(o => el("option", { value: o.id }, o.name)));
+  const hidden = el("input", { type: "checkbox", id: "feHidden" });
+  const note = el("textarea", { id: "feNote", maxlength: 500, "aria-label": "备注", placeholder: "比如：周末人多要等位" });
+  note.value = p.note || "";
+  const count = el("div", { class: "count" }, `${note.value.length}/500`);
+  note.addEventListener("input", () => { count.textContent = `${note.value.length}/500`; });
+  const save = async () => {
+    const target = others.find(o => o.id === merge.value);
+    const patch = { sources: p.sources };
+    const n = note.value.trim();
+    if (hidden.checked) patch.hidden = true;
+    else {
+      if (target) Object.assign(patch, { name: target.name, area: target.area });
+      else {
+        if (name.value.trim() && name.value.trim() !== p.name) patch.name = name.value.trim();
+        if (ar.value.trim() && ar.value.trim() !== p.area) patch.area = ar.value.trim();
+        if (cuisine.value !== p.cuisine) patch.cuisine = cuisine.value;
+        if (temp.value !== p.temp) patch.temp = temp.value;
+      }
+      if (n !== (p.note || "")) patch.note = n;
+    }
+    if (Object.keys(patch).length === 1) { editing = false; draw(); return; }
+    saving = true; draw();
+    const ok = await send(patch, { optimistic: false });
+    saving = false; if (ok) editing = false; draw();
+  };
+  return el("div", { class: "fedit", id: "editForm" },
+    el("h3", {}, "✏️ 改一改这家店"),
+    el("label", {}, "店名", name), el("label", {}, "城市", ar), list, el("label", {}, "菜系", cuisine), el("label", {}, "冷热", temp), el("label", {}, "合并到", merge),
+    el("label", {}, "备注", note), count,
+    el("label", { class: "check" }, hidden, "这不是吃饭的地方，以后别再抽到"),
+    el("p", { class: "hint" }, "合并后两家的记录算作同一家。改动由 Mac 记住，重新整理也不会被覆盖。清空备注就是删掉它。"),
+    el("div", { class: "row" },
+      el("button", { type: "button", class: "btn plain", onclick: () => { editing = false; draw(); } }, "取消"),
+      el("button", { type: "button", class: "btn main", id: "feSave", disabled: saving, onclick: save }, saving ? "保存中…" : "保存")));
+}
+
+function visitList(p) {
+  const box = el("div", { id: "visitList" }, el("div", { class: "section-title" }, `在 ${p.name} 吃过的 ${p.visits.length} 次`));
+  for (const v of p.visits) {
+    const icons = v.sources.map(s => ({ moneywiz: "💳", receipt: "🧾", calendar: "📅" })[s] || "").join("") + (v.receipts.length && !v.sources.includes("receipt") ? "🧾" : "");
+    const open = openVisit === v.date;
+    box.append(el("button", { type: "button", class: "visit", disabled: !v.receipts.length, "aria-expanded": v.receipts.length ? String(open) : null,
+      onclick: () => { openVisit = open ? null : v.date; draw(); } },
+      el("span", { class: "vd" }, v.date), el("span", {}, icons), el("span", { class: "ve" }, v.events.join("、")),
+      v.amount > 0 && el("span", { class: "va" }, usd(v.amount)), v.receipts.length ? el("span", {}, open ? "▴" : "▾") : null));
+    if (open) for (const r of v.receipts) box.append(slip(r));
+  }
+  return box;
+}
+
+function slip(r) {
+  return el("div", { class: "slip" },
+    el("div", { class: "sh" }, el("span", {}, r.merchant || "小票"), el("span", {}, usd(r.total || 0))),
+    r.items?.length ? [el("hr"), r.items.map(i => el("div", { class: "si" }, el("span", {}, i.quantity && i.quantity !== 1 ? `${i.name} ×${i.quantity}` : i.name), i.price ? el("span", {}, usd(i.price)) : null))] : null,
+    el("button", { type: "button", class: "orig", onclick: () => original(r.view) }, "查看原件"));
+}
+
+async function original(path) {
+  try {
+    const r = await call({ action: "views", paths: [path] });
+    const url = r.urls?.[path];
+    if (!url) { notice("云端还没有这张小票的图片，Mac 同步后再看", true); return; }
+    const box = el("div", { class: "lightbox", role: "dialog", "aria-label": "小票原件", onclick: () => box.remove() }, el("img", { src: url, alt: "小票原件" }));
+    document.body.append(box);
+  } catch (err) { notice(err.message, true); }
+}
+
+// ---- 想吃 ----
+function wishScreen() {
+  const all = cat?.wishes || [];
+  const list = all.filter(w => showDoneWishes || (!w.done && !w.place));
+  const nodes = [];
+  if (wishEditing) nodes.push(wishForm(wishEditing));
+  const open = all.filter(w => !w.done && !w.place);
+  nodes.push(el("div", { class: "wtools" },
+    el("button", { type: "button", class: "btn main", id: "wishAdd", onclick: () => { wishEditing = {}; draw(); } }, "＋ 加一家"),
+    open.length > 1 ? el("button", { type: "button", class: "btn plain", id: "wishRoll", onclick: () => { const others = open.filter(w => w.id !== wishPick?.id); wishPick = others[Math.floor(Math.random() * others.length)]; draw(); } }, "🎲 抽一家") : null,
+    el("label", {}, el("input", { type: "checkbox", id: "wishShowDone", checked: showDoneWishes, onchange: (e) => { showDoneWishes = e.target.checked; draw(); } }), "看吃过的")));
+  if (wishPick && open.some(w => w.id === wishPick.id)) {
+    nodes.push(el("div", { class: "wpick", id: "wishPick" }, el("div", { style: "font-size:40px" }, FOOD_EMOJI[CUISINES.find(c => wishPick.cuisine?.includes(c)) || "其他"]),
+      el("div", { class: "nm" }, wishPick.title), wishPick.address ? el("div", { class: "wf" }, wishPick.address) : null, wishPick.note ? el("div", { class: "wishnote" }, wishPick.note) : null));
+  }
+  if (!list.length) nodes.push(el("div", { class: "empty" }, all.length ? "想吃的都去吃过啦 🎉" : "还没有想吃的店。点「加一家」，或者在「我的心愿单」的「餐厅」里记下。"));
+  for (const w of list) {
+    const cuisine = CUISINES.find(c => (w.cuisine || "").includes(c)) || "其他";
+    const status = w.place ? el("div", { class: "ws ok" }, `✅ 吃过了：${w.placeName}，${w.visits || 1} 次，上次 ${w.eatenOn}`)
+      : w.done ? el("div", { class: "ws" }, "已实现") : el("div", { class: "ws" }, w.pending ? "正在交给 Mac…" : `还没去过 · 加进来 ${(w.createdAt || "").slice(0, 10)}`);
+    nodes.push(el("div", { class: "wish" + (w.done ? " done" : ""), "data-id": w.id },
+      el("div", { class: "we", "aria-hidden": "true" }, FOOD_EMOJI[cuisine]),
+      el("div", { class: "wb" },
+        el("div", { class: "wt" }, w.title, w.rating ? el("span", { class: "stars", "aria-label": `${w.rating} 星` }, "★".repeat(w.rating)) : null),
+        [w.cuisine, w.address].filter(Boolean).length ? el("div", { class: "wf" }, [w.cuisine, w.address].filter(Boolean).join(" · ")) : null,
+        w.note ? el("div", { class: "wishnote" }, w.note) : null, status),
+      w.pending ? null : el("button", { type: "button", class: "wa", "aria-label": `改一改 ${w.title}`, onclick: () => { wishEditing = { ...w }; draw(); window.scrollTo?.(0, 0); } }, "✏️")));
+  }
+  return nodes;
+}
+
+function wishForm(w) {
+  const title = el("input", { type: "text", id: "wTitle", value: w.title || "", "aria-label": "店名", placeholder: "比如 Gen Korean BBQ", autocomplete: "off" });
+  const cuisine = el("input", { type: "text", id: "wCuisine", value: w.cuisine || "", list: "wCuisines", "aria-label": "菜系", autocomplete: "off" });
+  const cuisines = el("datalist", { id: "wCuisines" }, CUISINES.map(c => el("option", { value: c })));
+  const address = el("input", { type: "text", id: "wAddress", value: w.address || "", "aria-label": "地址", placeholder: "城市或地址", autocomplete: "off" });
+  const note = el("textarea", { id: "wNote", "aria-label": "备注", maxlength: 1000, placeholder: "谁推荐的、想点什么…" });
+  note.value = w.note || "";
+  let rating = w.rating || 0;
+  const stars = el("div", { class: "rate", id: "wRate" });
+  const drawStars = () => stars.replaceChildren(...[1, 2, 3, 4, 5].map(n => el("button", { type: "button", "aria-label": `${n} 星`, "aria-pressed": String(n <= rating), onclick: () => { rating = rating === n ? 0 : n; drawStars(); } }, n <= rating ? "★" : "☆")));
+  drawStars();
+  const save = async () => {
+    const t = title.value.trim();
+    if (!t) { title.focus(); return; }
+    const patch = { title: t, cuisine: cuisine.value.trim(), address: address.value.trim(), note: note.value.trim(), rating };
+    if (w.id) {
+      patch.id = w.id;
+      for (const k of ["title","cuisine","address","note","rating"]) if (patch[k] === (w[k] ?? (k === "rating" ? 0 : ""))) delete patch[k];
+      if (Object.keys(patch).length === 1) { wishEditing = null; draw(); return; }
+    }
+    wishEditing = null;
+    await send({ wish: patch });
+  };
+  return el("div", { class: "fedit", id: "wishForm" },
+    el("h3", {}, w.id ? "✏️ 改一改" : "📌 加一家想吃的"),
+    el("label", {}, "店名", title), el("label", {}, "菜系", cuisine), cuisines, el("label", {}, "地址", address), el("label", {}, "备注", note),
+    el("label", {}, "等级", stars),
+    el("div", { class: "row" },
+      w.id ? el("button", { type: "button", class: "btn plain", id: "wDone", onclick: () => { wishEditing = null; send({ wish: { id: w.id, done: !w.done } }); } }, w.done ? "标回想吃" : "标记已实现") : null,
+      w.id ? el("button", { type: "button", class: "btn plain error", id: "wDelete", onclick: () => { if (confirm(`删掉「${w.title}」吗？「我的心愿单」里也会删掉。`)) { wishEditing = null; send({ wish: { id: w.id, deleted: true } }); } } }, "删除") : null,
+      el("button", { type: "button", class: "btn plain", onclick: () => { wishEditing = null; draw(); } }, "取消"),
+      el("button", { type: "button", class: "btn main", id: "wSave", onclick: save }, "保存")));
+}
+
+$("tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-tab]");
+  if (!b) return;
+  tab = b.dataset.tab; store.set("tab", tab); draw();
+});
+
+if (store.get("passcode") && api()) start(); else login();
+</script>
+</body>
+</html>
