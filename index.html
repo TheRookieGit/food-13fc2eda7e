@@ -3,150 +3,196 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f4f3ef" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4efe6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="吃什么">
 <meta name="robots" content="noindex">
 <title>今天吃什么</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><rect width='18' height='18' rx='4' fill='%237a1e2c'/><path d='M3.6 12C3.6 8.8 6 6.4 9 6.4s5.4 2.4 5.4 5.6z' fill='%23d9b77e'/><rect x='2.4' y='12.4' width='13.2' height='1.3' rx='.6' fill='%23d9b77e'/><circle cx='9' cy='5.3' r='1.1' fill='%23d9b77e'/></svg>">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
 <style>
-  :root { --bg: #f4f3ef; --surface: #fff; --surface-2: #ebe9e3; --text: #1d1d1b; --muted: #6b6a66; --faint: #9a9893; --line: #dcdad3;
-    --paper: #fffdf8; --food: #f2564f; --food-soft: rgba(242, 86, 79, .13); --ok: #2f8f4e; --mono: ui-monospace, "SF Mono", Menlo, monospace;
-    color-scheme: light dark; }
+  /* The look of the Mac app: a menu card. Ivory and warm ink, wine for what matters, brass for the fine print. */
+  :root { --bg: #f4efe6; --surface: #fffcf6; --surface-2: rgba(35, 28, 23, .05); --text: #231c17; --muted: #7a7068; --faint: #a39a90;
+    --line: rgba(35, 28, 23, .12); --paper: #fffefa; --food: #7a1e2c; --on-food: #fff8ee; --food-soft: rgba(122, 30, 44, .1);
+    --brass: #9c7640; --ok: #4e7257; --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    --serif: ui-serif, "New York", "Songti SC", "STSong", Georgia, serif; color-scheme: light dark; }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #111110; --surface: #1c1c1b; --surface-2: #262624; --text: #f1f0ec; --muted: #a9a7a1; --faint: #77756f; --line: #34332f;
-      --paper: #2b2b29; --food: #ff6b63; --food-soft: rgba(255, 107, 99, .16); --ok: #5cc27e; }
+    :root { --bg: #14120f; --surface: #1e1b17; --surface-2: rgba(241, 234, 223, .06); --text: #f1eadf; --muted: #a99f93; --faint: #7a7167;
+      --line: rgba(241, 234, 223, .12); --paper: #2a2622; --food: #c0606b; --on-food: #fff4ea; --food-soft: rgba(192, 96, 107, .16);
+      --brass: #d2b07a; --ok: #8db898; }
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); overflow-x: hidden; }
-  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
   button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--food); outline-offset: 2px; }
   main { max-width: 560px; margin: 0 auto; padding: 12px 16px 96px; }
-  header { display: flex; align-items: center; gap: 10px; padding: 6px 0 12px; }
-  header .mark { font-size: 26px; }
-  header h1 { font-size: 19px; margin: 0; font-weight: 800; letter-spacing: -.01em; }
+  main.wide { max-width: 1100px; }
+  .serif { font-family: var(--serif); }
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .16em; color: var(--brass); }
+  .cloche { width: 1em; height: 1em; display: inline-block; vertical-align: -.12em; }
+  header { display: flex; align-items: center; gap: 10px; padding: 8px 0 14px; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+  header h1 { font: 600 22px/1.2 var(--serif); margin: 0; }
   header .sub { font-size: 12px; color: var(--muted); }
   header .grow { flex: 1; min-width: 0; }
-  .quiet { min-height: 40px; padding: 0 12px; border-radius: 12px; color: var(--muted); font-size: 14px; }
-  .tabs { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; gap: 8px; z-index: 20;
-    padding: 8px 16px calc(8px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--bg) 88%, transparent);
+  .quiet { min-height: 40px; padding: 0 10px; border-radius: 10px; color: var(--muted); font-size: 14px; }
+  .tabs { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; gap: 28px; z-index: 20;
+    padding: 6px 16px calc(6px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--bg) 90%, transparent);
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--line); }
-  .tabs button { flex: 1; max-width: 200px; min-height: 44px; border-radius: 14px; font-weight: 650; color: var(--muted); }
-  .tabs button[aria-selected="true"] { background: var(--food-soft); color: var(--food); }
-  .hint { font-size: 12.5px; color: var(--faint); margin: 10px 2px; }
+  .tabs button { min-height: 44px; padding: 0 6px; font: 15.5px var(--serif); color: var(--muted); border-bottom: 1.5px solid transparent; border-radius: 0; }
+  .tabs button[aria-selected="true"] { color: var(--food); font-weight: 600; border-bottom-color: var(--food); }
+  .hint { font-size: 12px; color: var(--faint); margin: 10px 2px; }
   .empty { text-align: center; color: var(--muted); padding: 40px 12px; }
-  .box { background: var(--surface); border-radius: 18px; padding: 16px; }
-  .error { color: #c0392b; }
-  .btn { min-height: 44px; padding: 10px 16px; border-radius: 12px; font-weight: 650; }
-  .btn.main { background: var(--food); color: #fff; }
-  .btn.plain { background: var(--surface); border: 1px solid var(--line); }
-  #notice { position: fixed; left: 16px; right: 16px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: 528px; margin: 0 auto; z-index: 30;
-    background: var(--text); color: var(--bg); border-radius: 14px; padding: 12px 14px; font-size: 14px; box-shadow: 0 8px 30px rgba(0,0,0,.25); }
-  #notice.bad { background: #c0392b; color: #fff; }
+  .empty b { display: block; font: 500 17px var(--serif); color: var(--text); margin-bottom: 4px; }
+  .box { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  .error { color: #b3261e; }
+  @media (prefers-color-scheme: dark) { .error { color: #ff8a80; } }
+  .btn { min-height: 44px; padding: 9px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; }
+  .btn.main { background: var(--food); color: var(--on-food); }
+  .btn.plain { background: transparent; border: 1px solid var(--line); }
+  #notice { position: fixed; left: 16px; right: 16px; bottom: calc(70px + env(safe-area-inset-bottom)); max-width: 528px; margin: 0 auto; z-index: 30;
+    background: var(--text); color: var(--bg); border-radius: 12px; padding: 12px 14px; font-size: 14px; box-shadow: 0 8px 30px rgba(0,0,0,.25); }
+  #notice.bad { background: #b3261e; color: #fff; }
   #notice[hidden] { display: none; }
 
   /* Login */
   .login { max-width: 360px; margin: 18vh auto 0; display: grid; gap: 12px; text-align: center; }
-  .login input { font: inherit; font-size: 16px; min-height: 48px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--text); padding: 0 14px; width: 100%; }
+  .login .cloche { width: 56px; height: 56px; color: var(--brass); margin: 0 auto; }
+  .login h1 { margin: 0; font: 600 26px var(--serif); }
+  .login input { font: inherit; font-size: 16px; min-height: 48px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--text); padding: 0 14px; width: 100%; }
+
+  /* Filters */
+  .frow { display: grid; grid-template-columns: 64px 1fr; align-items: baseline; gap: 10px; margin: 0 0 10px; }
+  .frow > small { font-size: 11px; font-weight: 600; letter-spacing: .16em; color: var(--brass); }
+  .fchips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fchip { min-height: 34px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); font-size: 13.5px; color: color-mix(in srgb, var(--text) 80%, transparent);
+    transition: background .15s, color .15s, transform .15s; }
+  .fchip.on { background: var(--food); border-color: var(--food); color: var(--on-food); font-weight: 500; }
+  .fchip:active { transform: scale(.95); }
 
   /* The roll */
-  .frow { margin: 0 0 12px; }
-  .frow > small { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin: 0 2px 6px; }
-  .fchips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .fchip { min-height: 36px; padding: 7px 12px; border-radius: 999px; background: var(--surface-2); font-size: 13.5px; transition: background .15s, color .15s, transform .15s; }
-  .fchip.on { background: var(--food); color: #fff; font-weight: 600; }
-  .fchip:active { transform: scale(.94); }
-  .stage { position: relative; min-height: 250px; border-radius: 24px; overflow: hidden; display: grid; place-items: center;
-    background: linear-gradient(135deg, var(--food-soft), rgba(251, 146, 60, .12)); margin: 6px 0 12px; }
-  .stage .idle { text-align: center; color: var(--muted); font-size: 14px; }
-  .stage .bowl { font-size: 64px; display: inline-block; animation: bob 1.8s ease-in-out infinite; }
-  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
-  .scard { position: absolute; left: 50%; top: 50%; width: 104px; height: 134px; margin: -67px 0 0 -52px; border-radius: 16px;
-    background: var(--paper); box-shadow: 0 4px 14px rgba(0, 0, 0, .16); display: grid; place-items: center; font-size: 42px;
+  .stage { position: relative; min-height: 270px; border-radius: 20px; overflow: hidden; display: grid; place-items: center;
+    background: var(--surface); border: 1px solid var(--line); box-shadow: 0 4px 16px rgba(0,0,0,.05); margin: 8px 0 14px; }
+  .stage::after { content: ""; position: absolute; inset: 6px; border: 1px solid color-mix(in srgb, var(--brass) 22%, transparent); border-radius: 15px; pointer-events: none; }
+  .stage .idle { text-align: center; color: var(--muted); font-size: 13px; }
+  .stage .idle .cloche { width: 60px; height: 60px; color: var(--brass); animation: bob 3.2s ease-in-out infinite; }
+  .stage .idle b { display: block; font: 500 19px var(--serif); color: var(--text); margin: 10px 0 2px; }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  .scard { position: absolute; left: 50%; top: 50%; width: 100px; height: 140px; margin: -70px 0 0 -50px; border-radius: 10px;
+    background: var(--paper); box-shadow: 0 4px 14px rgba(0, 0, 0, .14); display: grid; place-content: center; gap: 8px; text-align: center;
     transition: transform .22s cubic-bezier(.3, 1.6, .5, 1); }
-  .pick-card { text-align: center; padding: 16px 12px; width: 100%; }
-  .pick-card.fresh { animation: pop .55s cubic-bezier(.3, 1.6, .5, 1) both; }
-  @keyframes pop { from { transform: scale(.55); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .pick-card .em { font-size: 46px; display: inline-block; }
-  .pick-card.fresh .em { animation: wiggle .6s ease-out both .1s; }
-  @keyframes wiggle { 0% { transform: scale(1.3) rotate(-12deg); } 60% { transform: scale(.95) rotate(6deg); } 100% { transform: none; } }
-  .pick-card .nm { font-size: 23px; font-weight: 800; letter-spacing: -.01em; margin: 4px 0 6px; overflow-wrap: anywhere; }
-  .pick-card .tg { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
-  .pick-card .tg span { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--text) 7%, transparent); }
-  .pick-card .st { font-size: 13px; color: var(--muted); margin-top: 8px; }
-  .pick-card .dishes { font-size: 13.5px; margin: 8px 6px 0; overflow-wrap: anywhere; }
-  .pick-card .dishes.none { font-size: 12px; color: var(--faint); }
-  .labels { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 10px; }
-  .lchip { min-height: 32px; padding: 5px 11px; border-radius: 999px; font-size: 12.5px; background: color-mix(in srgb, var(--text) 6%, transparent); color: var(--muted); }
-  .lchip.on { color: #fff; font-weight: 650; }
-  .lchip.on[data-l="全家爱吃"] { background: #e8544c; } .lchip.on[data-l="老公认可"] { background: #e8738b; } .lchip.on[data-l="老婆认证"] { background: #d65c9e; }
-  .lchip.on[data-l="不太行"] { background: #77756f; } .lchip.on[data-l="太贵了"] { background: #8c6b4d; } .lchip.on[data-l="拉肚子"] { background: #7a5c3d; }
-  .pick-card .more { color: var(--food); margin-top: 6px; font-size: 13.5px; min-height: 40px; padding: 0 6px; }
-  .spark { position: absolute; left: 50%; top: 50%; font-size: 16px; pointer-events: none; animation: burst .9s ease-out both; }
-  @keyframes burst { from { transform: translate(-50%, -50%) scale(.4); opacity: 1; } to { transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.3); opacity: 0; } }
-  .verdict { display: inline-block; margin-top: 10px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #fff; background: #dc3340; }
-  .verdict.black { background: #3a3a3c; }
-  .verdict.mixed { background: #b8731a; }
-  .vcomment, .mynote, .wishnote { font-size: 12.5px; color: var(--muted); margin: 5px 8px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
-  .mynote { color: var(--text); }
-  .pick-card .acts { display: flex; gap: 16px; justify-content: center; margin-top: 4px; }
-  .fedit { background: var(--surface-2); border-radius: 16px; padding: 14px; margin: 0 0 12px; display: grid; gap: 10px; }
-  .fedit h3 { margin: 0; font-size: 15px; }
+  .scard::before { content: ""; position: absolute; inset: 7px; border: 1px solid color-mix(in srgb, var(--brass) 50%, transparent); border-radius: 6px; }
+  .scard .mono { font: 500 38px/1 var(--serif); color: var(--food); }
+  .pick-card { text-align: center; padding: 24px 18px; width: 100%; position: relative; z-index: 1; }
+  .pick-card.fresh { animation: pop .55s cubic-bezier(.3, 1.4, .5, 1) both; }
+  @keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .ruled { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .ruled::before, .ruled::after { content: ""; width: 22px; border-top: 1px solid color-mix(in srgb, var(--brass) 45%, transparent); }
+  .pick-card .nm { font: 600 27px/1.2 var(--serif); margin: 6px 0 4px; overflow-wrap: anywhere; }
+  .pick-card .tg { font-size: 12.5px; color: var(--muted); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 14px 0 4px; padding: 10px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stats > div + div { border-left: 1px solid var(--line); }
+  .stats b { display: block; font: 500 17px var(--serif); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
+  .stats small { display: block; font-size: 10.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px; }
+  .pick-card .st { font-size: 12.5px; color: var(--muted); margin-top: 12px; }
+  .pick-card .dishes { font: 13.5px/1.6 var(--serif); margin: 10px 6px 0; overflow-wrap: anywhere; }
+  .pick-card .dishes .eyebrow { display: block; font-family: -apple-system, sans-serif; margin-bottom: 2px; }
+  .pick-card .dishes.none { font: 12px -apple-system, sans-serif; color: var(--faint); }
+  .labels { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 12px; }
+  .lchip { min-height: 30px; padding: 4px 11px; border-radius: 999px; font-size: 12.5px; border: 1px solid var(--line); color: var(--muted); }
+  .lchip.on { color: var(--on-food); font-weight: 500; border-color: transparent; }
+  .lchip.on[data-l="全家爱吃"] { background: var(--food); } .lchip.on[data-l="老公认可"] { background: #9a3b4f; } .lchip.on[data-l="老婆认证"] { background: #6e2f5a; }
+  .lchip.on[data-l="不太行"] { background: #6b655e; } .lchip.on[data-l="太贵了"] { background: #7a5a36; } .lchip.on[data-l="拉肚子"] { background: #5c4a36; }
+  .pick-card .more { color: var(--food); margin-top: 6px; font-size: 13.5px; font-weight: 500; min-height: 40px; padding: 0 6px; }
+  .spark { position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; border-radius: 50%; background: var(--brass); pointer-events: none; z-index: 2; animation: burst 1.1s ease-out both; }
+  @keyframes burst { from { transform: translate(-50%, -50%) scale(.5); opacity: .9; } to { transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.2); opacity: 0; } }
+  .verdict { display: inline-block; margin-top: 12px; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: .16em;
+    color: var(--food); border: 1px solid color-mix(in srgb, var(--food) 60%, transparent); }
+  .verdict.black { color: var(--text); border-color: color-mix(in srgb, var(--text) 60%, transparent); }
+  .verdict.mixed { color: var(--brass); border-color: color-mix(in srgb, var(--brass) 60%, transparent); }
+  .vcomment, .mynote, .wishnote { font-size: 12.5px; color: var(--muted); margin: 6px 8px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .wishnote { color: var(--brass); }
+  .mynote { color: var(--text); font: italic 14px var(--serif); }
+  .pick-card .acts { display: flex; gap: 20px; justify-content: center; margin-top: 6px; }
+  .fedit { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin: 0 0 14px; display: grid; gap: 10px; }
+  .fedit h3 { margin: 0; font: 600 16px var(--serif); }
   .fedit label { display: grid; grid-template-columns: 52px 1fr; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
-  .fedit input[type=text], .fedit select, .fedit textarea { font: inherit; font-size: 16px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; min-height: 40px; width: 100%; min-width: 0; }
+  .fedit input[type=text], .fedit select, .fedit textarea { font: inherit; font-size: 16px; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-height: 40px; width: 100%; min-width: 0; }
   .fedit textarea { min-height: 72px; resize: vertical; }
   .fedit label.check { display: flex; gap: 8px; color: var(--text); }
-  .fedit label.check input { width: 22px; height: 22px; }
+  .fedit label.check input { width: 22px; height: 22px; accent-color: var(--food); }
   .fedit .count { font-size: 11px; color: var(--faint); text-align: right; margin-top: -6px; }
-  .fedit .row { display: flex; justify-content: flex-end; gap: 8px; }
-  .roll { width: 100%; background: var(--food); color: #fff; font-weight: 750; font-size: 17px; padding: 15px; border-radius: 18px; box-shadow: 0 6px 18px var(--food-soft); }
-  .roll:active { transform: scale(.98); }
-  .roll:disabled { opacity: .45; }
-  .pool-note { text-align: center; font-size: 12px; color: var(--faint); margin: 8px 0 14px; }
-  .section-title { font-weight: 700; font-size: 14px; margin: 16px 2px 8px; }
-  .visit { display: flex; gap: 8px; align-items: center; width: 100%; text-align: left; min-height: 44px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); margin: 0 0 6px; font-size: 14px; }
-  .visit .vd { font-family: var(--mono); font-size: 13px; }
+  .fedit .row { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+  .roll { width: 100%; background: var(--food); color: var(--on-food); font: 600 17px var(--serif); letter-spacing: .14em; padding: 15px; border-radius: 12px;
+    box-shadow: 0 6px 18px var(--food-soft); }
+  .roll:active { transform: scale(.99); opacity: .9; }
+  .roll:disabled { opacity: .4; }
+  .pool-note { text-align: center; font-size: 11.5px; letter-spacing: .04em; color: var(--faint); margin: 8px 0 14px; }
+  .section-title { display: flex; justify-content: space-between; align-items: baseline; font: 600 15px var(--serif); margin: 18px 2px 8px; }
+  .vlist { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .visit { display: flex; gap: 10px; align-items: center; width: 100%; text-align: left; min-height: 46px; padding: 10px 14px; font-size: 14px; border-top: 1px solid var(--line); }
+  .vlist > .visit:first-child { border-top: 0; }
+  .visit .vd { font-family: var(--serif); font-variant-numeric: tabular-nums; }
+  .visit .vs { font-size: 10.5px; color: var(--brass); letter-spacing: .06em; white-space: nowrap; }
   .visit .ve { flex: 1; min-width: 0; color: var(--muted); font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .visit .va { font-weight: 650; font-variant-numeric: tabular-nums; }
+  .visit .va { font: 500 14px var(--serif); font-variant-numeric: tabular-nums; }
+  .visit .vc { color: var(--faint); font-size: 11px; }
   .visit:disabled { cursor: default; }
-  .slip { background: var(--paper); border-radius: 6px; padding: 12px 14px; margin: 2px 6px 10px; box-shadow: 0 1px 4px rgba(0,0,0,.1); font-family: var(--mono); font-size: 12.5px; }
-  .slip .sh { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; font-family: -apple-system, sans-serif; font-size: 14px; }
+  .slip { background: var(--paper); border-radius: 4px; padding: 12px 14px; margin: 2px 14px 12px; box-shadow: 0 1px 4px rgba(0,0,0,.1); font-family: var(--mono); font-size: 12px; }
+  .slip .sh { display: flex; justify-content: space-between; gap: 8px; font: 600 14px var(--serif); }
   .slip .si { display: flex; justify-content: space-between; gap: 10px; padding: 2px 0; }
   .slip .si span:first-child { overflow-wrap: anywhere; }
   .slip hr { border: 0; border-top: 1px dashed var(--line); margin: 8px 0; }
-  .slip .orig { color: var(--food); font-family: -apple-system, sans-serif; min-height: 40px; }
+  .slip .orig { color: var(--food); font: 500 12.5px -apple-system, sans-serif; min-height: 40px; }
   .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.88); z-index: 50; display: grid; place-items: center; padding: 16px; }
   .lightbox img { max-width: 100%; max-height: 100%; border-radius: 6px; }
 
-  /* 想吃 */
-  .wish { display: flex; gap: 12px; align-items: flex-start; background: var(--surface); border-radius: 16px; padding: 12px 14px; margin: 0 0 8px; }
-  .wish .we { font-size: 28px; line-height: 1.2; }
-  .wish .wb { flex: 1; min-width: 0; }
-  .wish .wt { font-weight: 750; font-size: 15.5px; overflow-wrap: anywhere; }
-  .wish .wf { font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
-  .wish .ws { font-size: 12.5px; color: var(--faint); margin-top: 3px; }
-  .wish .ws.ok { color: var(--ok); }
-  .wish .wishnote { margin: 2px 0 0; }
-  .wish.done { opacity: .6; }
-  .wish .wa { min-width: 40px; min-height: 40px; border-radius: 10px; color: var(--muted); font-size: 18px; }
-  .stars { color: #e8962e; font-size: 12px; margin-left: 4px; }
-  .wtools { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; }
-  .wtools label { margin-left: auto; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; min-height: 40px; }
-  .wpick { text-align: center; padding: 18px; border-radius: 20px; background: linear-gradient(135deg, var(--food-soft), rgba(251, 146, 60, .12)); margin: 0 0 12px; }
-  .wpick .nm { font-size: 21px; font-weight: 800; overflow-wrap: anywhere; }
-  .rate button { font-size: 22px; min-width: 36px; min-height: 40px; color: #e8962e; }
+  /* 餐厅库 */
+  .ltools { display: flex; gap: 8px; align-items: center; margin: 0 0 10px; }
+  .search { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 0 12px; min-height: 40px; }
+  .search input { flex: 1; min-width: 0; font: inherit; font-size: 16px; border: 0; background: none; color: var(--text); outline: none; }
+  .search svg { width: 14px; height: 14px; color: var(--muted); flex: none; }
+  .lstatus { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin: 0 0 10px; }
+  .lstatus .fbtn { margin-left: auto; min-height: 34px; font-size: 13.5px; color: var(--muted); }
+  .lstatus .fbtn.on { color: var(--food); font-weight: 500; }
+  .lfilters { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 14px 4px; margin: 0 0 10px; }
+  .lfilters select { font: inherit; font-size: 15px; color: var(--food); background: none; border: 0; padding: 4px 0; }
+  .lfoot { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); margin: 0 2px 8px; }
+  .lfoot label { margin-left: auto; display: flex; align-items: center; gap: 6px; min-height: 36px; }
+  .lfoot input { accent-color: var(--food); }
+  .sheet { overflow: auto; max-height: calc(100dvh - 250px); min-height: 280px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+  .sheet table { border-collapse: separate; border-spacing: 0; font-size: 13px; min-width: 100%; }
+  .sheet th, .sheet td { padding: 9px 10px; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); white-space: nowrap; text-align: left; }
+  .sheet th { position: sticky; top: 0; z-index: 2; background: color-mix(in srgb, var(--surface) 92%, var(--text)); padding: 0; font-weight: 600; font-size: 12.5px; }
+  .sheet th button { display: flex; gap: 4px; align-items: center; width: 100%; min-height: 38px; padding: 0 10px; color: var(--text); font-weight: 600; white-space: nowrap; }
+  .sheet th button span { color: var(--food); font-size: 10px; }
+  .sheet td:first-child, .sheet th:first-child { position: sticky; left: 0; z-index: 1; }
+  .sheet th:first-child { z-index: 3; }
+  .sheet td:first-child { background: var(--surface); font: 500 14px var(--serif); max-width: 42vw; overflow: hidden; text-overflow: ellipsis; box-shadow: 1px 0 0 var(--line); }
+  .sheet tr:nth-child(even) td { background: color-mix(in srgb, var(--surface) 96%, var(--text)); }
+  .sheet tbody tr { cursor: pointer; }
+  .sheet tbody tr:active td { background: var(--food-soft); }
+  .sheet td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .sheet td.long { max-width: 220px; overflow: hidden; text-overflow: ellipsis; color: var(--muted); }
+  .sheet td.red { color: var(--food); font-weight: 600; } .sheet td.black { font-weight: 600; } .sheet td.mixed { color: var(--brass); font-weight: 600; }
+  .sheet td.want { color: var(--brass); font-weight: 500; }
+  .back { color: var(--food); font-weight: 500; font-size: 14px; min-height: 40px; margin: 0 0 4px; }
+  .wpick { text-align: center; padding: 18px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); margin: 0 0 12px; }
+  .wpick .nm { font: 600 21px var(--serif); overflow-wrap: anywhere; margin-top: 4px; }
+  .wpick .wf { font-size: 12.5px; color: var(--muted); }
+  .rate button { font-size: 22px; min-width: 36px; min-height: 40px; color: var(--brass); }
 
-  @media (prefers-reduced-motion: reduce) { .stage .bowl, .pick-card, .pick-card .em, .spark { animation: none !important; } .scard { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .stage .idle .cloche, .pick-card, .spark { animation: none !important; } .scard { transition: none; } }
 </style>
 </head>
 <body>
 <main id="app" aria-live="polite"></main>
 <nav class="tabs" id="tabs" role="tablist" hidden>
-  <button type="button" role="tab" data-tab="roll" aria-selected="true">🎲 抽签</button>
-  <button type="button" role="tab" data-tab="wish" aria-selected="false">📌 想吃</button>
+  <button type="button" role="tab" data-tab="roll" aria-selected="true">抽签</button>
+  <button type="button" role="tab" data-tab="lib" aria-selected="false">餐厅库</button>
 </nav>
 <div id="notice" role="status" hidden></div>
 <script>
@@ -157,8 +203,12 @@ const CUISINES = ["中餐","火锅","韩餐","日料","东南亚","美式","快�
 const TEMPS = ["热","冷","都有"];
 const LABELS = ["全家爱吃","老公认可","老婆认证","不太行","太贵了","拉肚子"];
 const PRICES = [["low","$50 以内"],["mid","$50–100"],["high","$100 以上"]];
-const FOOD_EMOJI = { 中餐:"🥟",火锅:"🍲",韩餐:"🥘",日料:"🍣",东南亚:"🍜",美式:"🍔",快餐:"🍟",墨西哥:"🌮",西餐:"🍝",甜品饮品:"🧋",其他:"🍽️" };
+// One character for a cuisine, set in the serif like a monogram (Theme.monogram on the Mac).
+const MONO = { 中餐:"中",火锅:"锅",韩餐:"韩",日料:"和",东南亚:"南",美式:"美",快餐:"快",墨西哥:"墨",西餐:"西",甜品饮品:"甜",其他:"食" };
 const LIST_TITLE = "LV 饮食";
+const STATUSES = ["全部","吃过","想吃","红榜","黑榜"];
+const NOTED = "有备注";
+const VERDICT = { red: "红榜", black: "黑榜", mixed: "红黑榜都有" };
 
 const $ = (id) => document.getElementById(id);
 const store = {
@@ -178,6 +228,13 @@ function el(tag, attrs = {}, ...children) {
   }
   for (const c of children.flat(Infinity)) if (c != null && c !== false) n.append(c instanceof Node ? c : String(c));
   return n;
+}
+// The cloche of the app icon, in fine lines.
+function cloche() {
+  const t = document.createElement("template");
+  t.innerHTML = '<svg class="cloche" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true">'
+    + '<path d="M3.2 11.8C3.2 8.4 5.8 5.8 9 5.8s5.8 2.6 5.8 6"/><path d="M1.8 12.8h14.4"/><circle cx="9" cy="4.6" r="1.1" fill="currentColor" stroke="none"/></svg>';
+  return t.content.firstChild;
 }
 const usd = (a) => "$" + Number(a).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const ymd = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -209,9 +266,13 @@ async function call(body) {
 // ---- State ----
 let base = null, pending = [], at = null, loadError = null, loading = null;
 let cat = null;
-let tab = store.get("tab") === "wish" ? "wish" : "roll";
+// "wish" was the 想吃 tab, now inside 餐厅库.
+let tab = ["lib", "wish"].includes(store.get("tab")) ? "lib" : "roll";
 let pick = null, rolling = false, showVisits = false, openVisit = null, fresh = false, editing = false, saving = false;
 let wishEditing = null, wishPick = null, showDoneWishes = false;
+// 餐厅库: search, status, filters and the column it is sorted by (newest visit first); the place open in it.
+const L = { q: "", status: "全部", area: null, cuisines: new Set(), tags: new Set(), prices: new Set(), sort: "last", desc: true, filters: false };
+let libOpen = null;
 const saved = (() => { try { return JSON.parse(store.get("food") || "{}"); } catch { return {}; } })();
 // area: undefined = where you ate last, null = anywhere.
 const F = { area: saved.area, cuisines: new Set(saved.cuisines || []), temp: saved.temp ?? null, prices: new Set(saved.prices || []) };
@@ -274,7 +335,8 @@ function withPending(c, edits) {
   });
   return out;
 }
-const refresh = () => { cat = withPending(base, pending); if (pick) pick = cat?.places.find(p => p.sources?.some(x => pick.sources?.includes(x))) || null; };
+const follow = (old) => old && (cat?.places.find(p => p.sources?.some(x => old.sources?.includes(x))) || null);
+const refresh = () => { cat = withPending(base, pending); pick = follow(pick); libOpen = follow(libOpen); };
 
 function areas(c) {
   const n = new Map();
@@ -309,7 +371,7 @@ function login(message) {
   };
   pass.addEventListener("keydown", e => { if (e.key === "Enter") go(); });
   $("app").replaceChildren(el("div", { class: "login" },
-    el("div", { style: "font-size:56px" }, "🎲"), el("h1", { style: "margin:0" }, "今天吃什么"),
+    cloche(), el("h1", {}, "今天吃什么"),
     DEFAULT_API && !message?.includes("连不上") ? null : addr, pass,
     el("button", { type: "button", class: "btn main", id: "login", onclick: go }, "进入"),
     message ? el("p", { class: "error", id: "loginError" }, message) : null,
@@ -343,7 +405,6 @@ function load(force = false) {
 function head() {
   const n = cat ? cat.places.filter(p => p.visits.length).length : 0;
   return el("header", {},
-    el("span", { class: "mark", "aria-hidden": "true" }, "🎲"),
     el("div", { class: "grow" }, el("h1", {}, "今天吃什么"), el("div", { class: "sub" }, cat ? `${n} 家吃过的店` : "")),
     el("button", { type: "button", class: "quiet", id: "reload", onclick: () => load(true) }, "刷新"),
     el("button", { type: "button", class: "quiet", id: "logout", onclick: () => { store.set("passcode", null); base = cat = pick = null; pending = []; login(); } }, "退出"));
@@ -361,7 +422,8 @@ function draw() {
       el("button", { type: "button", class: "btn plain", onclick: () => load(true) }, "再试一次")));
     return;
   }
-  box.replaceChildren(head(), ...(tab === "wish" ? wishScreen() : rollScreen()).filter(Boolean),
+  box.classList.toggle("wide", tab === "lib" && !libOpen);
+  box.replaceChildren(head(), ...(tab === "lib" ? libScreen() : rollScreen()).filter(Boolean),
     el("p", { class: "hint", id: "foot" }, at ? `Mac 上次整理：${relTime(at)}。` : "", "来自 MoneyWiz、小票和日历；菜系、冷热和城市由 AI 判断。"));
 }
 
@@ -375,20 +437,20 @@ function rollScreen() {
   const a = area(), p = pool();
   const set = (fn) => () => { fn(); saveFilters(); draw(); };
   const nodes = [
-    frow("📍 在哪儿", [...areas(cat).slice(0, 8).map(x => fchip(x, a === x, set(() => { F.area = x; }))), fchip("哪都行", !a, set(() => { F.area = null; }))]),
-    frow("🍴 想吃啥", [fchip("随便", !F.cuisines.size, set(() => F.cuisines.clear())),
-      ...CUISINES.map(c => fchip(`${FOOD_EMOJI[c]} ${c}`, F.cuisines.has(c), set(() => { F.cuisines.has(c) ? F.cuisines.delete(c) : F.cuisines.add(c); })))]),
-    frow("💰 花多少（按平时每次）", [fchip("不限", !F.prices.size, set(() => F.prices.clear())),
+    frow("城市", [...areas(cat).slice(0, 8).map(x => fchip(x, a === x, set(() => { F.area = x; }))), fchip("不限", !a, set(() => { F.area = null; }))]),
+    frow("菜系", [fchip("不限", !F.cuisines.size, set(() => F.cuisines.clear())),
+      ...CUISINES.map(c => fchip(c, F.cuisines.has(c), set(() => { F.cuisines.has(c) ? F.cuisines.delete(c) : F.cuisines.add(c); })))]),
+    frow("每次花费", [fchip("不限", !F.prices.size, set(() => F.prices.clear())),
       ...PRICES.map(([k, t]) => fchip(t, F.prices.has(k), set(() => { F.prices.has(k) ? F.prices.delete(k) : F.prices.add(k); })))]),
-    frow("🌡️ 冷的热的", [fchip("都行", !F.temp, set(() => { F.temp = null; })),
-      fchip("🔥 热乎的", F.temp === "热", set(() => { F.temp = "热"; })), fchip("🧊 冰冰凉", F.temp === "冷", set(() => { F.temp = "冷"; }))]),
+    frow("冷热", [fchip("不限", !F.temp, set(() => { F.temp = null; })),
+      fchip("热食", F.temp === "热", set(() => { F.temp = "热"; })), fchip("冷食", F.temp === "冷", set(() => { F.temp = "冷"; }))]),
   ];
   const stage = el("div", { class: "stage", id: "stage" });
   if (pick) stage.append(pickCard(pick));
-  else stage.append(el("div", { class: "idle" }, el("div", { class: "bowl" }, "🍚"), el("div", {}, p.length ? "肚子饿了？点下面抽一家" : "这样筛就没有店啦，放宽一点试试")));
+  else stage.append(el("div", { class: "idle" }, cloche(), el("b", {}, p.length ? "今天吃什么？" : "没有符合条件的店"), p.length ? "从吃过的店里抽一家" : "放宽一点条件再试试"));
   nodes.push(stage, pick && editing ? editForm(pick) : null,
-    el("button", { type: "button", class: "roll", id: "roll", disabled: !p.length || rolling, onclick: roll }, pick ? "🎲  再抽一次" : "🎲  抽一家！"),
-    el("p", { class: "pool-note", id: "poolNote" }, `符合条件的有 ${p.length} 家 · 一共 ${cat.places.length} 家店`));
+    el("button", { type: "button", class: "roll", id: "roll", disabled: !p.length || rolling, onclick: roll }, pick ? "再抽一次" : "抽一家"),
+    el("p", { class: "pool-note", id: "poolNote" }, `符合条件 ${p.length} 家 · 一共 ${cat.places.length} 家店`));
   if (pick && showVisits) nodes.push(visitList(pick));
   return nodes;
 }
@@ -397,36 +459,38 @@ function pickCard(p) {
   const last = p.visits[0], total = p.visits.reduce((s, v) => s + v.amount, 0);
   const days = last ? Math.round((Date.parse(ymd(new Date()) + "T00:00:00Z") - Date.parse(last.date + "T00:00:00Z")) / 86400000) : 0;
   const usual = typical(p);
-  const stat = !p.visits.length ? `还没吃过 · 在备忘录「${LIST_TITLE}」里`
-    : [`吃过 ${p.visits.length} 次`, last && `上次 ${last.date}（${days > 0 ? days + " 天前" : "今天"}）`, usual != null && `一般每次 ${usd(usual)}`, total > 0 && `一共 ${usd(total)}`].filter(Boolean).join(" · ");
+  const stat = (value, caption) => el("div", {}, el("b", {}, value), el("small", {}, caption));
+  const stats = !p.visits.length ? el("div", { class: "st" }, `还没吃过 · 在备忘录「${LIST_TITLE}」里`)
+    : el("div", { class: "stats", id: "stats" }, stat(`${p.visits.length}`, "到访次数"), stat(last.date, days > 0 ? `上次 · ${days} 天前` : "上次 · 今天"),
+      stat(usual != null ? usd(usual) : "—", total > 0 ? `每次 · 共 ${usd(total)}` : "通常每次"));
   const hasItems = p.visits.some(v => v.receipts.some(r => r.items?.length));
-  const dishes = p.dishes ? el("div", { class: "dishes", id: "dishes" }, p.dishes)
+  const dishes = p.dishes ? el("div", { class: "dishes", id: "dishes" }, el("span", { class: "eyebrow" }, "吃过什么"), p.dishes)
     : p.visits.length ? el("div", { class: "dishes none", id: "dishes" }, hasItems ? "吃过什么还在整理中" : "没有小票明细，补上小票就能看到吃过什么") : null;
   const wish = (cat.wishes || []).find(w => w.place === p.id && !w.done);
   // The pop and sparkles play once, when the pick lands, not on every redraw.
   const isFresh = fresh; fresh = false;
   const card = el("div", { class: "pick-card" + (isFresh ? " fresh" : ""), id: "pick" },
-    el("div", { class: "em" }, FOOD_EMOJI[p.cuisine] || "🍽️"),
+    el("div", { class: "ruled eyebrow" }, p.cuisine),
     el("div", { class: "nm", id: "pickName" }, p.name),
-    el("div", { class: "tg" }, p.area && el("span", {}, "📍 " + p.area), el("span", {}, p.cuisine), p.temp === "冷" ? el("span", {}, "🧊 冷") : p.temp === "热" ? el("span", {}, "🔥 热") : null),
-    el("div", { class: "st" }, stat),
+    el("div", { class: "tg" }, [p.area, p.temp === "冷" ? "冷食" : p.temp === "热" ? "热食" : null].filter(Boolean).join("  ·  ")),
+    stats,
     dishes,
     el("div", { class: "labels", id: "labels" }, LABELS.map(l => {
       const on = (p.labels || []).includes(l);
       return el("button", { type: "button", class: "lchip" + (on ? " on" : ""), "data-l": l, "aria-pressed": String(on), onclick: () => toggleLabel(p, l) }, l);
     })),
-    p.verdict && el("div", {}, el("span", { class: "verdict " + p.verdict }, { red: "👍 红榜", black: "👎 黑榜", mixed: "👍👎 红黑榜都有" }[p.verdict])),
+    p.verdict && el("div", {}, el("span", { class: "verdict " + p.verdict }, VERDICT[p.verdict])),
     p.verdict && p.comment && el("div", { class: "vcomment" }, (p.listName ? `「${p.listName}」` : "") + p.comment),
-    wish && el("div", { class: "wishnote" }, "📌 在想吃清单里" + (wish.note ? "：" + wish.note : "")),
-    p.note && el("div", { class: "mynote", id: "myNote" }, "✍️ " + p.note),
+    wish && el("div", { class: "wishnote" }, "在想吃清单里" + (wish.note ? "：" + wish.note : "")),
+    p.note && el("div", { class: "mynote", id: "myNote" }, `“${p.note}”`),
     el("div", { class: "acts" },
-      p.visits.length ? el("button", { type: "button", class: "more", id: "visits", "aria-expanded": String(showVisits), onclick: () => { showVisits = !showVisits; draw(); } }, showVisits ? "收起 ▴" : "看看以前哪天吃的 ▾") : null,
-      el("button", { type: "button", class: "more", id: "edit", "aria-expanded": String(editing), onclick: () => { editing = !editing; draw(); } }, "✏️ 改一改")));
+      p.visits.length ? el("button", { type: "button", class: "more", id: "visits", "aria-expanded": String(showVisits), onclick: () => { showVisits = !showVisits; draw(); } }, showVisits ? "收起到访记录 ▴" : "到访记录 ▾") : null,
+      el("button", { type: "button", class: "more", id: "edit", "aria-expanded": String(editing), onclick: () => { editing = !editing; draw(); } }, "修改")));
   const frag = document.createDocumentFragment(); frag.append(card);
-  if (isFresh && !reduced()) ["✨","⭐️","💫","✨","⭐️","💫","✨"].forEach((s, i) => {
-    const a = i / 7 * 2 * Math.PI;
-    frag.append(el("span", { class: "spark", "aria-hidden": "true", style: `--x:${Math.round(Math.cos(a) * 150)}px;--y:${Math.round(Math.sin(a) * 95)}px` }, s));
-  });
+  if (isFresh && !reduced()) for (let i = 0; i < 10; i++) {
+    const a = i / 10 * 2 * Math.PI;
+    frag.append(el("span", { class: "spark", "aria-hidden": "true", style: `--x:${Math.round(Math.cos(a) * 160)}px;--y:${Math.round(Math.sin(a) * 105)}px` }));
+  }
   return frag;
 }
 const reduced = () => !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -436,14 +500,15 @@ async function roll() {
   if (!p.length || rolling) return;
   const previous = pick;
   rolling = true; pick = null; showVisits = false; openVisit = null; editing = false; draw();
-  const stage = $("stage"), emojis = p.slice(0, 12).map(x => FOOD_EMOJI[x.cuisine] || "🍽️");
+  const stage = $("stage"), cuisines = p.slice(0, 12).map(x => x.cuisine);
   if (!reduced()) {
     const cards = [0, 1, 2].map(() => el("div", { class: "scard", "aria-hidden": "true" }));
     stage.replaceChildren(...cards);
     for (let step = 0; step < 9; step++) {
       cards.forEach((c, i) => {
         const slot = (i + step) % 3;
-        c.textContent = emojis[(i + step) % emojis.length];
+        const cuisine = cuisines[(i + step) % cuisines.length];
+        c.replaceChildren(el("div", { class: "mono" }, MONO[cuisine] || "食"), el("div", { class: "eyebrow" }, cuisine));
         c.style.transform = `translate(${(slot - 1) * 70}px, ${slot === 1 ? -14 : 6}px) rotate(${(slot - 1) * 12}deg)`;
         c.style.zIndex = slot === 1 ? 2 : 0;
       });
@@ -482,7 +547,7 @@ function editForm(p) {
   const name = el("input", { type: "text", id: "feName", value: p.name, "aria-label": "店名", autocomplete: "off" });
   const ar = el("input", { type: "text", id: "feArea", value: p.area, list: "feAreas", "aria-label": "城市", autocomplete: "off" });
   const list = el("datalist", { id: "feAreas" }, areas(cat).slice(0, 12).map(a => el("option", { value: a })));
-  const cuisine = el("select", { id: "feCuisine", "aria-label": "菜系" }, CUISINES.map(c => el("option", { value: c, selected: c === p.cuisine }, `${FOOD_EMOJI[c]} ${c}`)));
+  const cuisine = el("select", { id: "feCuisine", "aria-label": "菜系" }, CUISINES.map(c => el("option", { value: c, selected: c === p.cuisine }, c)));
   const temp = el("select", { id: "feTemp", "aria-label": "冷热" }, TEMPS.map(t => el("option", { value: t, selected: t === p.temp }, t)));
   const others = cat.places.filter(o => o.area === p.area && o.id !== p.id).sort((a, b) => a.name.localeCompare(b.name));
   const merge = el("select", { id: "feMerge", "aria-label": "合并到" }, el("option", { value: "" }, "不合并（是另一家店）"), others.map(o => el("option", { value: o.id }, o.name)));
@@ -512,7 +577,7 @@ function editForm(p) {
     saving = false; if (ok) editing = false; draw();
   };
   return el("div", { class: "fedit", id: "editForm" },
-    el("h3", {}, "✏️ 改一改这家店"),
+    el("h3", {}, "修改这家店"),
     el("label", {}, "店名", name), el("label", {}, "城市", ar), list, el("label", {}, "菜系", cuisine), el("label", {}, "冷热", temp), el("label", {}, "合并到", merge),
     el("label", {}, "备注", note), count,
     el("label", { class: "check" }, hidden, "这不是吃饭的地方，以后别再抽到"),
@@ -523,17 +588,18 @@ function editForm(p) {
 }
 
 function visitList(p) {
-  const box = el("div", { id: "visitList" }, el("div", { class: "section-title" }, `在 ${p.name} 吃过的 ${p.visits.length} 次`));
+  const rows = el("div", { class: "vlist" });
   for (const v of p.visits) {
-    const icons = v.sources.map(s => ({ moneywiz: "💳", receipt: "🧾", calendar: "📅" })[s] || "").join("") + (v.receipts.length && !v.sources.includes("receipt") ? "🧾" : "");
+    const kinds = v.sources.map(s => ({ moneywiz: "刷卡", receipt: "小票", calendar: "日历" })[s]).filter(Boolean);
+    if (v.receipts.length && !v.sources.includes("receipt")) kinds.push("小票");
     const open = openVisit === v.date;
-    box.append(el("button", { type: "button", class: "visit", disabled: !v.receipts.length, "aria-expanded": v.receipts.length ? String(open) : null,
+    rows.append(el("button", { type: "button", class: "visit", disabled: !v.receipts.length, "aria-expanded": v.receipts.length ? String(open) : null,
       onclick: () => { openVisit = open ? null : v.date; draw(); } },
-      el("span", { class: "vd" }, v.date), el("span", {}, icons), el("span", { class: "ve" }, v.events.join("、")),
-      v.amount > 0 && el("span", { class: "va" }, usd(v.amount)), v.receipts.length ? el("span", {}, open ? "▴" : "▾") : null));
-    if (open) for (const r of v.receipts) box.append(slip(r));
+      el("span", { class: "vd" }, v.date), el("span", { class: "vs" }, kinds.join(" · ")), el("span", { class: "ve" }, v.events.join("、")),
+      v.amount > 0 && el("span", { class: "va" }, usd(v.amount)), v.receipts.length ? el("span", { class: "vc" }, open ? "▴" : "▾") : null));
+    if (open) for (const r of v.receipts) rows.append(slip(r));
   }
-  return box;
+  return el("div", { id: "visitList" }, el("div", { class: "section-title" }, "到访记录", el("span", { class: "eyebrow" }, `${p.visits.length} 次`)), rows);
 }
 
 function slip(r) {
@@ -553,35 +619,115 @@ async function original(path) {
   } catch (err) { notice(err.message, true); }
 }
 
-// ---- 想吃 ----
-function wishScreen() {
-  const all = cat?.wishes || [];
-  const list = all.filter(w => showDoneWishes || (!w.done && !w.place));
-  const nodes = [];
+// ---- 餐厅库 ----
+// Every place and every wish not matched to one, as rows of plain values (Library.Row on the Mac).
+function libRows() {
+  const wishes = cat?.wishes || [], wishFor = new Map();
+  for (const w of wishes) if (!w.done && w.place && !wishFor.has(w.place)) wishFor.set(w.place, w);
+  const rows = (cat?.places || []).map(p => {
+    const w = wishFor.get(p.id), total = p.visits.reduce((s, v) => s + v.amount, 0);
+    return { id: "p:" + p.id, place: p, wish: w, name: p.name, cuisine: p.cuisine, area: p.area, visits: p.visits.length, last: p.visits[0]?.date || "",
+      typical: typical(p) ?? -1, total: total > 0 ? total : -1, verdict: p.verdict || "", want: w ? "想吃" : "", labels: (p.labels || []).join("、"),
+      note: p.note || "", comment: p.comment || "", dishes: p.dishes || "",
+      tags: new Set([...(p.labels || []), ...(p.note || p.comment ? [NOTED] : [])]),
+      text: [p.name, p.area, p.cuisine, p.note, p.comment, p.listName, p.dishes, w?.note, (p.labels || []).join(" ")].filter(Boolean).join("\n").toLowerCase() };
+  });
+  for (const w of wishes) {
+    if (w.place || (w.done && !showDoneWishes)) continue;
+    rows.push({ id: "w:" + w.id, wishOnly: w, name: w.title, cuisine: CUISINES.find(c => (w.cuisine || "").includes(c)) || "其他", area: w.address || "",
+      visits: 0, last: "", typical: -1, total: -1, verdict: "", want: w.done ? "已实现" : "想吃", labels: "", note: w.note || "", comment: "", dishes: "",
+      tags: new Set(w.note ? [NOTED] : []), text: [w.title, w.cuisine, w.address, w.note].filter(Boolean).join("\n").toLowerCase() });
+  }
+  const words = L.q.toLowerCase().split(/\s+/).filter(Boolean);
+  const shown = rows.filter(r => {
+    const p = r.place;
+    const status = L.status === "全部" || (L.status === "吃过" ? r.visits > 0 : L.status === "想吃" ? !!r.want
+      : L.status === "红榜" ? ["red", "mixed"].includes(r.verdict) : ["black", "mixed"].includes(r.verdict));
+    return status && (!L.area || (p ? p.area === L.area : r.area.toLowerCase().includes(L.area.toLowerCase())))
+      && (!L.cuisines.size || L.cuisines.has(r.cuisine)) && (!L.tags.size || [...L.tags].some(t => r.tags.has(t)))
+      && (!L.prices.size || (r.typical >= 0 && L.prices.has(bracket(r.typical)))) && words.every(w => r.text.includes(w));
+  });
+  const k = L.sort, dir = L.desc ? -1 : 1;
+  return shown.sort((a, b) => {
+    const x = a[k], y = b[k];
+    const c = typeof x === "number" ? x - y : x.localeCompare(y, "zh-Hans-CN");
+    return c ? c * dir : a.name.localeCompare(b.name, "zh-Hans-CN");
+  });
+}
+
+const COLUMNS = [["name","店名"],["cuisine","菜系"],["area","城市"],["visits","次数"],["last","上次"],["typical","每次"],["total","共计"],
+  ["verdict","红黑榜"],["want","想吃"],["labels","标签"],["note","我的备注"],["comment","红黑榜评价"],["dishes","吃过什么"]];
+
+function libScreen() {
+  if (libOpen) return placeScreen(libOpen);
+  const rows = libRows(), nodes = [];
+  const search = el("input", { type: "search", id: "libSearch", value: L.q, placeholder: "搜索店名、菜、备注、标签…", "aria-label": "搜索", autocomplete: "off", enterkeyhint: "search" });
+  search.addEventListener("input", () => { L.q = search.value; const at = search.selectionStart; draw(); const n = $("libSearch"); n.focus(); n.setSelectionRange(at, at); });
+  const glass = document.createElement("template");
+  glass.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>';
+  nodes.push(el("div", { class: "ltools" },
+    el("label", { class: "search" }, glass.content.firstChild, search),
+    el("button", { type: "button", class: "btn main", id: "wishAdd", onclick: () => { wishEditing = {}; draw(); window.scrollTo?.(0, 0); } }, "＋ 想吃")));
+  const filterCount = (L.area ? 1 : 0) + L.cuisines.size + L.tags.size + L.prices.size;
+  nodes.push(el("div", { class: "lstatus" },
+    STATUSES.map(st => fchip(st, L.status === st, () => { L.status = st; draw(); })),
+    el("button", { type: "button", class: "fbtn" + (filterCount || L.filters ? " on" : ""), id: "libFilters", "aria-expanded": String(L.filters),
+      onclick: () => { L.filters = !L.filters; draw(); } }, filterCount ? `筛选 ${filterCount}` : "筛选")));
+  if (L.filters) {
+    const toggle = (set, v) => () => { set.has(v) ? set.delete(v) : set.add(v); draw(); };
+    const city = el("select", { id: "libArea", "aria-label": "城市", onchange: (e) => { L.area = e.target.value || null; draw(); } },
+      el("option", { value: "" }, "所有城市"), areas(cat).map(a => el("option", { value: a, selected: a === L.area }, a)));
+    nodes.push(el("div", { class: "lfilters", id: "libFilterBox" },
+      frow("城市", [city]),
+      frow("菜系", CUISINES.map(c => fchip(c, L.cuisines.has(c), toggle(L.cuisines, c)))),
+      frow("标签", [...LABELS, NOTED].map(t => fchip(t, L.tags.has(t), toggle(L.tags, t)))),
+      frow("每次花费", [...PRICES.map(([k, t]) => fchip(t, L.prices.has(k), toggle(L.prices, k))),
+        filterCount ? el("button", { type: "button", class: "more", style: "color:var(--food);min-height:34px;padding:0 8px", onclick: () => {
+          L.area = null; L.cuisines.clear(); L.tags.clear(); L.prices.clear(); draw(); } }, "清除筛选") : null])));
+  }
   if (wishEditing) nodes.push(wishForm(wishEditing));
-  const open = all.filter(w => !w.done && !w.place);
-  nodes.push(el("div", { class: "wtools" },
-    el("button", { type: "button", class: "btn main", id: "wishAdd", onclick: () => { wishEditing = {}; draw(); } }, "＋ 加一家"),
-    open.length > 1 ? el("button", { type: "button", class: "btn plain", id: "wishRoll", onclick: () => { const others = open.filter(w => w.id !== wishPick?.id); wishPick = others[Math.floor(Math.random() * others.length)]; draw(); } }, "🎲 抽一家") : null,
-    el("label", {}, el("input", { type: "checkbox", id: "wishShowDone", checked: showDoneWishes, onchange: (e) => { showDoneWishes = e.target.checked; draw(); } }), "看吃过的")));
-  if (wishPick && open.some(w => w.id === wishPick.id)) {
-    nodes.push(el("div", { class: "wpick", id: "wishPick" }, el("div", { style: "font-size:40px" }, FOOD_EMOJI[CUISINES.find(c => wishPick.cuisine?.includes(c)) || "其他"]),
-      el("div", { class: "nm" }, wishPick.title), wishPick.address ? el("div", { class: "wf" }, wishPick.address) : null, wishPick.note ? el("div", { class: "wishnote" }, wishPick.note) : null));
+  const open = (cat?.wishes || []).filter(w => !w.done && !w.place);
+  if (L.status === "想吃" && wishPick && open.some(w => w.id === wishPick.id)) {
+    nodes.push(el("div", { class: "wpick", id: "wishPick" }, el("div", { class: "eyebrow" }, "就去这家"), el("div", { class: "nm" }, wishPick.title),
+      wishPick.address ? el("div", { class: "wf" }, wishPick.address) : null, wishPick.note ? el("div", { class: "wishnote" }, wishPick.note) : null));
   }
-  if (!list.length) nodes.push(el("div", { class: "empty" }, all.length ? "想吃的都去吃过啦 🎉" : "还没有想吃的店。点「加一家」，或者在「我的心愿单」的「餐厅」里记下。"));
-  for (const w of list) {
-    const cuisine = CUISINES.find(c => (w.cuisine || "").includes(c)) || "其他";
-    const status = w.place ? el("div", { class: "ws ok" }, `✅ 吃过了：${w.placeName}，${w.visits || 1} 次，上次 ${w.eatenOn}`)
-      : w.done ? el("div", { class: "ws" }, "已实现") : el("div", { class: "ws" }, w.pending ? "正在交给 Mac…" : `还没去过 · 加进来 ${(w.createdAt || "").slice(0, 10)}`);
-    nodes.push(el("div", { class: "wish" + (w.done ? " done" : ""), "data-id": w.id },
-      el("div", { class: "we", "aria-hidden": "true" }, FOOD_EMOJI[cuisine]),
-      el("div", { class: "wb" },
-        el("div", { class: "wt" }, w.title, w.rating ? el("span", { class: "stars", "aria-label": `${w.rating} 星` }, "★".repeat(w.rating)) : null),
-        [w.cuisine, w.address].filter(Boolean).length ? el("div", { class: "wf" }, [w.cuisine, w.address].filter(Boolean).join(" · ")) : null,
-        w.note ? el("div", { class: "wishnote" }, w.note) : null, status),
-      w.pending ? null : el("button", { type: "button", class: "wa", "aria-label": `改一改 ${w.title}`, onclick: () => { wishEditing = { ...w }; draw(); window.scrollTo?.(0, 0); } }, "✏️")));
+  nodes.push(el("div", { class: "lfoot" }, el("span", { id: "libCount" }, `共 ${rows.length} 家`),
+    L.status === "想吃" && open.length > 1 ? el("button", { type: "button", class: "more", id: "wishRoll", style: "color:var(--food);font-weight:500;min-height:36px",
+      onclick: () => { const others = open.filter(w => w.id !== wishPick?.id); wishPick = others[Math.floor(Math.random() * others.length)]; draw(); } }, "从想吃里抽一家") : null,
+    L.status === "想吃" ? el("label", {}, el("input", { type: "checkbox", id: "wishShowDone", checked: showDoneWishes, onchange: (e) => { showDoneWishes = e.target.checked; draw(); } }), "含已实现的") : null));
+  if (!rows.length) {
+    nodes.push(el("div", { class: "empty" }, el("b", {}, cat?.places?.length || cat?.wishes?.length ? "没有符合条件的店" : "还没有店"),
+      L.status === "想吃" && !(cat?.wishes || []).length ? "点「＋ 想吃」加一家，或者在「我的心愿单」的「餐厅」里记下。" : "换个关键词，或者放宽一点筛选"));
+    return nodes;
   }
+  const cell = (r, k) => {
+    const v = r[k];
+    if (k === "visits") return el("td", { class: "num" }, v > 0 ? String(v) : "");
+    if (k === "typical" || k === "total") return el("td", { class: "num" }, v >= 0 ? usd(v) : "");
+    if (k === "verdict") return el("td", { class: v }, v ? { red: "红榜", black: "黑榜", mixed: "红黑榜" }[v] : "");
+    if (k === "want") return el("td", { class: v === "想吃" ? "want" : "" }, v);
+    if (["note", "comment", "dishes"].includes(k)) return el("td", { class: "long", title: v || null }, v);
+    return el("td", {}, v);
+  };
+  const head = el("tr", {}, COLUMNS.map(([k, t]) => el("th", { "aria-sort": L.sort === k ? (L.desc ? "descending" : "ascending") : "none" },
+    el("button", { type: "button", "data-sort": k, onclick: () => { if (L.sort === k) L.desc = !L.desc; else { L.sort = k; L.desc = ["visits", "last", "typical", "total"].includes(k); } draw(); } },
+      t, L.sort === k ? el("span", {}, L.desc ? "▼" : "▲") : null))));
+  const body = el("tbody", {}, rows.map(r => el("tr", { "data-id": r.id, onclick: () => {
+    if (r.wishOnly) { wishEditing = { ...r.wishOnly }; draw(); window.scrollTo?.(0, 0); }
+    else { libOpen = r.place; editing = false; showVisits = true; openVisit = null; draw(); window.scrollTo?.(0, 0); }
+  } }, COLUMNS.map(([k]) => cell(r, k)))));
+  nodes.push(el("div", { class: "sheet", id: "sheet" }, el("table", {}, el("thead", {}, head), body)));
   return nodes;
+}
+
+// One place from 餐厅库: its card, corrections and visits, and a way back to the table.
+function placeScreen(p) {
+  return [
+    el("button", { type: "button", class: "back", id: "libBack", onclick: () => { libOpen = null; editing = false; draw(); } }, "‹ 餐厅库"),
+    el("div", { class: "stage", id: "stage" }, pickCard(p)),
+    editing ? editForm(p) : null,
+    showVisits && p.visits.length ? visitList(p) : null,
+  ];
 }
 
 function wishForm(w) {
@@ -608,7 +754,7 @@ function wishForm(w) {
     await send({ wish: patch });
   };
   return el("div", { class: "fedit", id: "wishForm" },
-    el("h3", {}, w.id ? "✏️ 改一改" : "📌 加一家想吃的"),
+    el("h3", {}, w.id ? "修改想吃的店" : "加一家想吃的"),
     el("label", {}, "店名", title), el("label", {}, "菜系", cuisine), cuisines, el("label", {}, "地址", address), el("label", {}, "备注", note),
     el("label", {}, "等级", stars),
     el("div", { class: "row" },
@@ -621,7 +767,7 @@ function wishForm(w) {
 $("tabs").addEventListener("click", (e) => {
   const b = e.target.closest("[data-tab]");
   if (!b) return;
-  tab = b.dataset.tab; store.set("tab", tab); draw();
+  tab = b.dataset.tab; store.set("tab", tab); if (tab === "lib") libOpen = null; draw();
 });
 
 if (store.get("passcode") && api()) start(); else login();
